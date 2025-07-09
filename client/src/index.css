@@ -285,22 +285,38 @@
     z-index: 50;
     position: fixed !important;
     bottom: 0 !important;
+    background: rgb(15 23 42) !important; /* solid slate-900 */
   }
   
-  /* Remove all borders and lines around navbar */
+  /* Complete navbar border removal */
   nav {
     border: none !important;
     box-shadow: none !important;
+    outline: none !important;
   }
   
   nav::after,
-  nav::before {
+  nav::before,
+  nav *::after,
+  nav *::before {
     display: none !important;
+    content: none !important;
   }
   
-  /* Remove any inherited borders from buttons */
-  nav button {
+  /* Remove any inherited borders from all navbar elements */
+  nav,
+  nav *,
+  nav button,
+  nav div {
     border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Force no borders on backdrop blur container */
+  .backdrop-blur-lg {
+    border: none !important;
+    outline: none !important;
   }
   
   /* Ensure navbar stays visible over content */
