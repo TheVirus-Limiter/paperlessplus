@@ -10,7 +10,7 @@ export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="max-w-md mx-auto bg-white min-h-screen relative">
+    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative text-white">
       <Header hideSearch />
       
       <main className="pb-20 px-4 pt-4">

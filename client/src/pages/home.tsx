@@ -44,7 +44,7 @@ export default function Home() {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-background min-h-screen relative">
+    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative text-white">
       <Header 
         searchQuery={searchQuery} 
         onSearchChange={setSearchQuery}

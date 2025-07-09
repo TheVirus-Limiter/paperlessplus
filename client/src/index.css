@@ -85,9 +85,24 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Force dark mode by default */
+  /* Force dark mode by default - always apply dark class */
   html {
     @apply dark;
+  }
+  
+  /* Ensure all text has proper contrast */
+  .text-gray-500,
+  .text-gray-600 {
+    @apply text-slate-400;
+  }
+  
+  .text-gray-900 {
+    @apply text-white;
+  }
+  
+  /* Fix backgrounds to be consistently dark */
+  .bg-white {
+    @apply bg-slate-900;
   }
 }
 

@@ -51,13 +51,13 @@ export default function Settings() {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white min-h-screen relative">
+    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative">
       <Header hideSearch />
       
       <main className="pb-20 px-4 pt-4">
         <div className="flex items-center gap-3 mb-6">
           <SettingsIcon className="h-6 w-6 text-[var(--papertrail-primary)]" />
-          <h1 className="text-xl font-semibold text-gray-900">Settings</h1>
+          <h1 className="text-xl font-semibold text-white">Settings</h1>
         </div>
 
         <div className="space-y-4">

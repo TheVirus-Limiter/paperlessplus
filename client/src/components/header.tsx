@@ -25,7 +25,7 @@ export default function Header({ searchQuery = "", onSearchChange, hideSearch = 
   };
 
   return (
-    <header className="glass-header sticky top-0 z-50 px-4 py-3">
+    <header className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 sticky top-0 z-50 px-4 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
