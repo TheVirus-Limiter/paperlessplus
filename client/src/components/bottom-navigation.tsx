@@ -1,0 +1,41 @@
+import { Button } from "@/components/ui/button";
+import { Home, Search, Bell, Settings } from "lucide-react";
+import { useLocation } from "wouter";
+
+const navItems = [
+  { id: "home", label: "Home", icon: Home, path: "/" },
+  { id: "search", label: "Search", icon: Search, path: "/search" },
+  { id: "reminders", label: "Reminders", icon: Bell, path: "/reminders" },
+  { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
+];
+
+export default function BottomNavigation() {
+  const [location, setLocation] = useLocation();
+
+  return (
+    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-200 px-4 py-2">
+      <div className="flex justify-around items-center">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location === item.path;
+          
+          return (
+            <Button
+              key={item.id}
+              variant="ghost"
+              className={`flex flex-col items-center py-1 px-3 h-auto ${
+                isActive 
+                  ? "text-[var(--papertrail-primary)]" 
+                  : "text-gray-500 hover:text-[var(--papertrail-primary)]"
+              }`}
+              onClick={() => setLocation(item.path)}
+            >
+              <Icon className="h-5 w-5 mb-1" />
+              <span className="text-xs">{item.label}</span>
+            </Button>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}
