@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Settings as SettingsIcon, Download, Bell, Shield, Info, HelpCircle } from "lucide-react";
+import { Settings as SettingsIcon, Download, Bell, Shield, Info, HelpCircle, LogOut } from "lucide-react";
 import { useState } from "react";
 import { exportDocuments } from "@/lib/export";
 import { useToast } from "@/hooks/use-toast";
+import SyncSettings from "@/components/sync-settings";
+import { cleanupSync } from "@/lib/syncManager";
 
 export default function Settings() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -41,6 +43,11 @@ export default function Settings() {
         });
       }
     }
+  };
+
+  const handleLogout = () => {
+    cleanupSync();
+    window.location.href = "/api/logout";
   };
 
   return (
@@ -101,6 +108,9 @@ export default function Settings() {
             </CardContent>
           </Card>
 
+          {/* Cloud Sync Settings */}
+          <SyncSettings />
+
           {/* Data Management */}
           <Card>
             <CardHeader>
@@ -154,6 +164,17 @@ export default function Settings() {
               >
                 <HelpCircle className="h-4 w-4 mr-2" />
                 Help & Support
+              </Button>
+              
+              <Separator />
+              
+              <Button 
+                variant="ghost" 
+                className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
               </Button>
             </CardContent>
           </Card>

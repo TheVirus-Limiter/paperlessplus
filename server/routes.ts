@@ -152,6 +152,129 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Sync and device management routes
+  app.post("/api/devices/register", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { deviceName, deviceType, userAgent } = req.body;
+      
+      const device = await storage.registerDevice({
+        userId,
+        deviceName: deviceName || "Unknown Device",
+        deviceType: deviceType || "desktop",
+        userAgent: userAgent || req.get("User-Agent") || "Unknown"
+      });
+      
+      res.json(device);
+    } catch (error) {
+      console.error("Error registering device:", error);
+      res.status(500).json({ message: "Failed to register device" });
+    }
+  });
+
+  app.get("/api/devices", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const devices = await storage.getUserDevices(userId);
+      res.json(devices);
+    } catch (error) {
+      console.error("Error fetching devices:", error);
+      res.status(500).json({ message: "Failed to fetch devices" });
+    }
+  });
+
+  app.put("/api/devices/:deviceId/heartbeat", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { deviceId } = req.params;
+      
+      await storage.updateDeviceLastSeen(deviceId, userId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error updating device heartbeat:", error);
+      res.status(500).json({ message: "Failed to update device" });
+    }
+  });
+
+  app.delete("/api/devices/:deviceId", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { deviceId } = req.params;
+      
+      const success = await storage.deactivateDevice(deviceId, userId);
+      res.json({ success });
+    } catch (error) {
+      console.error("Error deactivating device:", error);
+      res.status(500).json({ message: "Failed to deactivate device" });
+    }
+  });
+
+  // Sync operations
+  app.get("/api/sync/documents", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const lastSyncParam = req.query.lastSync as string;
+      const lastSyncAt = lastSyncParam ? new Date(lastSyncParam) : undefined;
+      
+      const documents = await storage.getDocumentsForSync(userId, lastSyncAt);
+      res.json(documents);
+    } catch (error) {
+      console.error("Error fetching documents for sync:", error);
+      res.status(500).json({ message: "Failed to fetch documents for sync" });
+    }
+  });
+
+  app.post("/api/sync/complete", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { documentIds, deviceId, action } = req.body;
+      
+      if (documentIds && documentIds.length > 0) {
+        await storage.markDocumentsAsSynced(documentIds, userId);
+      }
+      
+      const syncRecord = await storage.createSyncHistory({
+        userId,
+        deviceId,
+        action: action || "sync_down",
+        documentCount: documentIds?.length?.toString() || "0",
+        status: "success"
+      });
+      
+      // Update user's last sync time
+      await storage.updateUserSyncSettings(userId, true);
+      
+      res.json({ success: true, syncRecord });
+    } catch (error) {
+      console.error("Error completing sync:", error);
+      res.status(500).json({ message: "Failed to complete sync" });
+    }
+  });
+
+  app.get("/api/sync/history", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+      
+      const history = await storage.getSyncHistory(userId, limit);
+      res.json(history);
+    } catch (error) {
+      console.error("Error fetching sync history:", error);
+      res.status(500).json({ message: "Failed to fetch sync history" });
+    }
+  });
+
+  app.get("/api/sync/conflicts", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const conflicts = await storage.handleSyncConflicts(userId);
+      res.json(conflicts);
+    } catch (error) {
+      console.error("Error fetching sync conflicts:", error);
+      res.status(500).json({ message: "Failed to fetch sync conflicts" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

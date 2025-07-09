@@ -10,9 +10,24 @@ import Search from "@/pages/search";
 import Reminders from "@/pages/reminders";
 import Settings from "@/pages/settings";
 import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
+import { initializeSync, cleanupSync } from "@/lib/syncManager";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
+
+  // Initialize sync when user authenticates
+  useEffect(() => {
+    if (isAuthenticated) {
+      initializeSync();
+    } else {
+      cleanupSync();
+    }
+
+    return () => {
+      cleanupSync();
+    };
+  }, [isAuthenticated]);
 
   return (
     <Switch>
