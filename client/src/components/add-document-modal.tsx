@@ -6,6 +6,7 @@ import { z } from "zod";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -145,6 +146,9 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
                 <X className="h-4 w-4" />
               </Button>
             </DialogTitle>
+            <DialogDescription>
+              Track a new document by adding its details below. This helps you organize and remember important paperwork.
+            </DialogDescription>
           </DialogHeader>
 
           {/* Camera Preview */}

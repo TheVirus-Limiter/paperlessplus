@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Camera, X, RotateCcw, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -121,6 +121,9 @@ export default function CameraCapture({ isOpen, onClose, onCapture }: CameraCapt
             <Camera className="h-5 w-5" />
             Document Camera
           </DialogTitle>
+          <DialogDescription>
+            Take a photo of your document for reference. The image will be stored locally on your device.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
