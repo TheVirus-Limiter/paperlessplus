@@ -23,10 +23,10 @@ export default function BottomNavigation() {
             <Button
               key={item.id}
               variant="ghost"
-              className={`flex flex-col items-center py-1 px-3 h-auto ${
+              className={`flex flex-col items-center py-1 px-3 h-auto hover:bg-slate-800 focus:bg-slate-800 active:bg-slate-800 ${
                 isActive 
-                  ? "text-[var(--papertrail-primary)]" 
-                  : "text-slate-400 hover:text-[var(--papertrail-primary)]"
+                  ? "text-purple-400 bg-slate-800" 
+                  : "text-slate-400 hover:text-purple-400"
               }`}
               onClick={() => setLocation(item.path)}
             >

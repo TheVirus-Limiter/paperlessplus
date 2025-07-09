@@ -133,6 +133,19 @@
   .text-muted-foreground {
     @apply text-slate-400;
   }
+  
+  /* Fix button hover/focus states */
+  button:hover,
+  button:focus,
+  button:active {
+    background-color: transparent !important;
+  }
+  
+  /* Override ghost button variants */
+  .bg-accent,
+  .hover\:bg-accent:hover {
+    @apply bg-slate-800;
+  }
 }
 
 @layer utilities {
