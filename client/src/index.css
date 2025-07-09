@@ -288,35 +288,29 @@
     background: rgb(15 23 42) !important; /* solid slate-900 */
   }
   
-  /* Complete navbar border removal */
-  nav {
+  /* Complete bottom navigation styling reset */
+  .fixed.bottom-0 {
     border: none !important;
     box-shadow: none !important;
     outline: none !important;
   }
   
-  nav::after,
-  nav::before,
-  nav *::after,
-  nav *::before {
+  .fixed.bottom-0::after,
+  .fixed.bottom-0::before,
+  .fixed.bottom-0 *::after,
+  .fixed.bottom-0 *::before {
     display: none !important;
     content: none !important;
   }
   
-  /* Remove any inherited borders from all navbar elements */
-  nav,
-  nav *,
-  nav button,
-  nav div {
+  /* Remove any inherited borders from all bottom navigation elements */
+  .fixed.bottom-0,
+  .fixed.bottom-0 *,
+  .fixed.bottom-0 button,
+  .fixed.bottom-0 div {
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
-  }
-  
-  /* Force no borders on backdrop blur container */
-  .backdrop-blur-lg {
-    border: none !important;
-    outline: none !important;
   }
   
   /* Ensure navbar stays visible over content */

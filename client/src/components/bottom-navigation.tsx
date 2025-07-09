@@ -13,8 +13,31 @@ export default function BottomNavigation() {
   const [location, setLocation] = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 mx-auto w-full max-w-md bg-slate-900 px-4 py-2 z-50" style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>
-      <div className="flex justify-around items-center" style={{ border: 'none', outline: 'none' }}>
+    <div 
+      className="fixed bottom-0 left-0 right-0 z-50"
+      style={{ 
+        background: 'rgb(15, 23, 42)',
+        border: 'none',
+        outline: 'none',
+        boxShadow: 'none',
+        margin: 0,
+        padding: 0,
+        width: '100%',
+        maxWidth: '448px',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+      }}
+    >
+      <div 
+        className="flex justify-around items-center py-2 px-4"
+        style={{ 
+          border: 'none', 
+          outline: 'none',
+          background: 'transparent',
+          margin: 0,
+          padding: '8px 16px'
+        }}
+      >
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location === item.path;
@@ -37,6 +60,6 @@ export default function BottomNavigation() {
           );
         })}
       </div>
-    </nav>
+    </div>
   );
 }
