@@ -132,3 +132,16 @@ Preferred communication style: Simple, everyday language.
 - **Changes**: Service worker registration and web app manifest for Google Play Store deployment
 - **Impact**: App is now installable and ready for TWA deployment to Play Store
 - **Features**: Offline functionality, push notifications, background sync capabilities
+
+### ✓ Complete Dark Mode Implementation
+- **Date**: July 9, 2025
+- **Changes**: Fixed all remaining white backgrounds and poor text contrast issues
+- **Impact**: Professional Google Play Store-ready dark theme throughout entire app
+- **Components Fixed**: Bottom navigation, stats cards, document list, progress bars, input fields, placeholders
+- **Styling**: All text now properly visible with slate colors, purple accents maintained
+
+### ✓ Modern Onboarding Questionnaire
+- **Date**: July 9, 2025  
+- **Changes**: Replaced landing page with interactive questionnaire flow
+- **Impact**: Modern app experience with personalized setup process
+- **Features**: Multi-step form, progress tracking, document type selection, reminder preferences, privacy explanation, multi-auth options (Google/email/phone)

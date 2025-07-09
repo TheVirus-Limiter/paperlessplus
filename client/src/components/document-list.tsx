@@ -92,16 +92,16 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
       <section>
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <Card key={i} className="material-shadow">
+            <Card key={i} className="material-shadow bg-slate-800 border-slate-700">
               <CardContent className="p-4">
-                <Skeleton className="h-6 w-3/4 mb-2" />
-                <Skeleton className="h-4 w-1/2 mb-2" />
-                <Skeleton className="h-3 w-full mb-3" />
+                <Skeleton className="h-6 w-3/4 mb-2 bg-slate-700" />
+                <Skeleton className="h-4 w-1/2 mb-2 bg-slate-700" />
+                <Skeleton className="h-3 w-full mb-3 bg-slate-700" />
                 <div className="flex justify-between">
-                  <Skeleton className="h-3 w-1/3" />
+                  <Skeleton className="h-3 w-1/3 bg-slate-700" />
                   <div className="flex gap-2">
-                    <Skeleton className="h-6 w-6" />
-                    <Skeleton className="h-6 w-6" />
+                    <Skeleton className="h-6 w-6 bg-slate-700" />
+                    <Skeleton className="h-6 w-6 bg-slate-700" />
                   </div>
                 </div>
               </CardContent>
@@ -115,7 +115,7 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
   return (
     <section>
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-lg font-semibold">
+        <h2 className="text-lg font-semibold text-white">
           {searchQuery ? "Search Results" : "Your Documents"}
         </h2>
         <Button
@@ -131,11 +131,11 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
 
       {sortedDocuments.length === 0 ? (
         <div className="text-center py-8">
-          <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <FileText className="h-12 w-12 text-slate-500 mx-auto mb-3" />
+          <h3 className="text-lg font-medium text-white mb-2">
             {searchQuery ? "No documents found" : "No documents yet"}
           </h3>
-          <p className="text-gray-500 text-sm">
+          <p className="text-slate-400 text-sm">
             {searchQuery 
               ? "Try adjusting your search terms" 
               : "Start by adding your first document using the + button below"
@@ -149,10 +149,10 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
             const borderClass = getBorderColor(doc.category);
             
             return (
-              <Card key={doc.id} className={`material-shadow border-l-4 ${borderClass}`}>
+              <Card key={doc.id} className={`material-shadow bg-slate-800 border-slate-700 border-l-4 ${borderClass}`}>
                 <CardContent className="p-4">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-medium text-gray-900 flex-1">{doc.title}</h3>
+                    <h3 className="font-medium text-white flex-1">{doc.title}</h3>
                     <div className="flex gap-1 ml-2">
                       <Badge variant="secondary" className="text-xs">
                         {categoryInfo.label}
@@ -176,26 +176,26 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
                     </div>
                   </div>
                   
-                  <p className="text-gray-600 text-sm mb-2 flex items-center">
+                  <p className="text-slate-400 text-sm mb-2 flex items-center">
                     <MapPin className="h-3 w-3 mr-1" />
                     {doc.location}
                   </p>
                   
                   {doc.description && (
-                    <p className="text-gray-500 text-xs mb-3 line-clamp-2">
+                    <p className="text-slate-300 text-xs mb-3 line-clamp-2">
                       {doc.description}
                     </p>
                   )}
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-slate-400">
                       Updated {format(new Date(doc.updatedAt!), "MMM d, yyyy")}
                     </span>
                     <div className="flex gap-2">
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-gray-500 hover:text-[var(--papertrail-primary)]"
+                        className="h-8 w-8 text-slate-400 hover:text-purple-400"
                         onClick={() => {
                           // TODO: Implement edit functionality
                           toast({
@@ -209,7 +209,7 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-gray-500 hover:text-red-500"
+                        className="h-8 w-8 text-slate-400 hover:text-red-400"
                         onClick={() => deleteDocumentMutation.mutate(doc.id)}
                         disabled={deleteDocumentMutation.isPending}
                       >

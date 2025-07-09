@@ -104,6 +104,35 @@
   .bg-white {
     @apply bg-slate-900;
   }
+  
+  /* Fix input and component backgrounds */
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="password"],
+  .bg-background {
+    @apply bg-slate-800 text-white border-slate-600;
+  }
+  
+  /* Fix card backgrounds */
+  .bg-card {
+    @apply bg-slate-800;
+  }
+  
+  /* Fix secondary backgrounds */
+  .bg-secondary {
+    @apply bg-slate-700;
+  }
+  
+  /* Fix placeholder text */
+  ::placeholder {
+    @apply text-slate-400;
+  }
+  
+  /* Fix more text colors */
+  .text-muted-foreground {
+    @apply text-slate-400;
+  }
 }
 
 @layer utilities {
