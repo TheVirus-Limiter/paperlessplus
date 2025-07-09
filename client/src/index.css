@@ -134,17 +134,32 @@
     @apply text-slate-400;
   }
   
-  /* Fix button hover/focus states */
-  button:hover,
-  button:focus,
-  button:active {
-    background-color: transparent !important;
+  /* Fix text selection styling */
+  ::selection {
+    @apply bg-purple-600 text-white;
   }
   
-  /* Override ghost button variants */
+  ::-moz-selection {
+    @apply bg-purple-600 text-white;
+  }
+  
+  /* Override ghost button variants and focus states */
   .bg-accent,
-  .hover\:bg-accent:hover {
-    @apply bg-slate-800;
+  .hover\:bg-accent:hover,
+  button[data-state="active"],
+  button:focus-visible {
+    @apply bg-slate-800 text-inherit;
+  }
+  
+  /* Ensure text color inheritance in all button states */
+  button * {
+    color: inherit !important;
+  }
+  
+  /* Fix navigation button text persistence */
+  nav button span,
+  nav button svg {
+    color: inherit !important;
   }
 }
 
