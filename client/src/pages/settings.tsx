@@ -97,7 +97,7 @@ export default function Settings() {
                         variant={reminderDays === days ? "default" : "outline"}
                         size="sm"
                         onClick={() => setReminderDays(days)}
-                        className="text-xs"
+                        className={`text-xs ${reminderDays === days ? 'bg-purple-600 text-white hover:bg-purple-700' : 'border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white'}`}
                       >
                         {days} days
                       </Button>
@@ -125,7 +125,7 @@ export default function Settings() {
             <CardContent className="space-y-4">
               <Button 
                 variant="outline" 
-                className="w-full justify-start"
+                className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
                 onClick={handleExport}
               >
                 <Download className="h-4 w-4 mr-2" />
@@ -159,7 +159,7 @@ export default function Settings() {
               
               <Button 
                 variant="ghost" 
-                className="w-full justify-start"
+                className="w-full justify-start text-slate-300 hover:bg-slate-700 hover:text-white"
                 onClick={() => window.open("mailto:support@papertrail.app", "_blank")}
               >
                 <HelpCircle className="h-4 w-4 mr-2" />

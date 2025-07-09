@@ -161,6 +161,23 @@
   nav button svg {
     color: inherit !important;
   }
+  
+  /* Fix all button variants for dark mode */
+  .btn-outline,
+  button[variant="outline"],
+  .btn-ghost,
+  button[variant="ghost"] {
+    border-color: rgb(71 85 105) !important; /* slate-600 */
+    color: rgb(203 213 225) !important; /* slate-300 */
+  }
+  
+  .btn-outline:hover,
+  button[variant="outline"]:hover,
+  .btn-ghost:hover,
+  button[variant="ghost"]:hover {
+    background-color: rgb(51 65 85) !important; /* slate-700 */
+    color: white !important;
+  }
 }
 
 @layer utilities {
