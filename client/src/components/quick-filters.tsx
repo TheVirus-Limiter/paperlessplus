@@ -17,7 +17,7 @@ const filters = [
 export default function QuickFilters({ activeFilter, onFilterChange }: QuickFiltersProps) {
   return (
     <section className="mb-4">
-      <h2 className="text-sm font-medium text-gray-500 mb-2">Quick Filters</h2>
+      <h2 className="text-sm font-medium text-slate-400 mb-2">Quick Filters</h2>
       <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
         {filters.map((filter) => {
           const Icon = filter.icon;
@@ -30,8 +30,8 @@ export default function QuickFilters({ activeFilter, onFilterChange }: QuickFilt
               size="sm"
               className={`whitespace-nowrap ${
                 isActive 
-                  ? "bg-[var(--papertrail-primary)] hover:bg-[var(--papertrail-primary-dark)]" 
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  ? "bg-purple-600 hover:bg-purple-700 text-white" 
+                  : "bg-slate-700 text-slate-300 hover:bg-slate-600"
               }`}
               onClick={() => onFilterChange(filter.id)}
             >
