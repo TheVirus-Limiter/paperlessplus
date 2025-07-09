@@ -162,20 +162,42 @@
     color: inherit !important;
   }
   
-  /* Fix all button variants for dark mode */
-  .btn-outline,
-  button[variant="outline"],
-  .btn-ghost,
-  button[variant="ghost"] {
-    border-color: rgb(71 85 105) !important; /* slate-600 */
-    color: rgb(203 213 225) !important; /* slate-300 */
+  /* Force button text visibility in dark mode */
+  button {
+    color: inherit;
   }
   
-  .btn-outline:hover,
-  button[variant="outline"]:hover,
-  .btn-ghost:hover,
-  button[variant="ghost"]:hover {
-    background-color: rgb(51 65 85) !important; /* slate-700 */
+  /* Target specific button variant classes used by shadcn */
+  .inline-flex.items-center.justify-center.whitespace-nowrap.rounded-md.text-sm.font-medium.ring-offset-background.transition-colors.focus-visible\\:outline-none.focus-visible\\:ring-2.focus-visible\\:ring-ring.focus-visible\\:ring-offset-2.disabled\\:pointer-events-none.disabled\\:opacity-50.border.border-input.bg-background.hover\\:bg-accent.hover\\:text-accent-foreground,
+  button:has(.border):has(.bg-background) {
+    border-color: rgb(148 163 184) !important; /* slate-400 */
+    background-color: transparent !important;
+    color: white !important;
+  }
+  
+  /* Simplified targeting for outline buttons */
+  button.border.bg-background,
+  button[class*="border"][class*="bg-background"] {
+    border-color: rgb(148 163 184) !important; /* slate-400 */
+    background-color: transparent !important;
+    color: white !important;
+  }
+  
+  button.border.bg-background:hover,
+  button[class*="border"][class*="bg-background"]:hover {
+    background-color: rgb(30 41 59) !important; /* slate-800 */
+    color: white !important;
+  }
+  
+  /* Force white text on all settings page buttons */
+  .space-y-4 button,
+  .CardContent button {
+    color: white !important;
+  }
+  
+  .space-y-4 button:hover,
+  .CardContent button:hover {
+    background-color: rgb(30 41 59) !important; /* slate-800 */
     color: white !important;
   }
 }
