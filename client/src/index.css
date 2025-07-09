@@ -287,10 +287,20 @@
     bottom: 0 !important;
   }
   
-  /* Remove white border/line under navbar */
+  /* Remove all borders and lines around navbar */
+  nav {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
   nav::after,
   nav::before {
     display: none !important;
+  }
+  
+  /* Remove any inherited borders from buttons */
+  nav button {
+    border: none !important;
   }
   
   /* Ensure navbar stays visible over content */
