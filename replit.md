@@ -15,35 +15,41 @@ Preferred communication style: Simple, everyday language.
 ### Frontend Architecture
 - **Framework**: React with TypeScript using Vite as the build tool
 - **UI Library**: shadcn/ui components built on Radix UI primitives
-- **Styling**: Tailwind CSS with custom design system variables
-- **Routing**: Wouter for lightweight client-side routing
+- **Styling**: Tailwind CSS with modern dark theme as default, glassmorphism effects
+- **Routing**: Wouter for lightweight client-side routing with authentication protection
 - **State Management**: TanStack Query (React Query) for server state management
 - **Form Handling**: React Hook Form with Zod validation
 - **PWA Features**: Service Worker for offline functionality, Web App Manifest for installability
+- **Authentication**: Replit Auth integration with session management
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express.js server
 - **Language**: TypeScript with ES modules
 - **Database**: PostgreSQL with Drizzle ORM for type-safe database operations
+- **Authentication**: Replit OpenID Connect with Passport.js and session storage
 - **Development**: Hot module replacement via Vite integration
-- **API Design**: RESTful endpoints with consistent error handling
+- **API Design**: RESTful endpoints with authentication middleware and error handling
 
 ## Key Components
 
 ### Database Schema
-- **Documents Table**: Stores document metadata including title, location, category, urgency tags, and expiration dates
+- **Users Table**: Stores user authentication data from Replit Auth (id, email, name, profile)
+- **Sessions Table**: Manages user sessions for authentication persistence
+- **Documents Table**: Stores document metadata including title, location, category, urgency tags, and expiration dates with user ownership
 - **Categories**: Predefined categories (ID, Legal, Medical, Financial) with associated icons and colors
 - **Urgency Tags**: System for flagging documents (expires-soon, need-for-taxes, renewal-due)
 
 ### Storage Strategy
-- **Production**: PostgreSQL via Neon Database (@neondatabase/serverless)
-- **Development**: In-memory storage implementation for rapid development
-- **Local Fallback**: IndexedDB wrapper for offline functionality and privacy-focused local storage
+- **Production**: PostgreSQL via Neon Database (@neondatabase/serverless) with user-scoped data
+- **Authentication**: Replit Auth with PostgreSQL session storage
+- **Camera**: Client-side camera capture with base64 image storage for document photos
 
 ### UI Components
+- **Modern Dark Theme**: Default dark interface with glassmorphism effects and purple accent colors
 - **Mobile-First Design**: Optimized for mobile devices with touch-friendly interfaces
 - **Bottom Navigation**: Primary navigation pattern for mobile app experience
-- **Material Design Elements**: Card-based layouts with elevation shadows
+- **Authentication Flow**: Landing page for unauthenticated users, protected routes for authenticated users
+- **Camera Integration**: Native camera access for document photo capture with privacy-focused local storage
 - **Responsive Components**: Adaptive layouts that work across different screen sizes
 
 ## Data Flow

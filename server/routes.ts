@@ -2,13 +2,30 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertDocumentSchema } from "@shared/schema";
+import { setupAuth, isAuthenticated } from "./replitAuth";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Get all documents
-  app.get("/api/documents", async (req, res) => {
+  // Auth middleware
+  await setupAuth(app);
+
+  // Auth routes
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
-      const documents = await storage.getAllDocuments();
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Get all documents
+  app.get("/api/documents", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const documents = await storage.getAllDocuments(userId);
       res.json(documents);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch documents" });
@@ -16,13 +33,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Search documents
-  app.get("/api/documents/search", async (req, res) => {
+  app.get("/api/documents/search", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const query = req.query.q as string;
       if (!query) {
         return res.status(400).json({ message: "Search query is required" });
       }
-      const documents = await storage.searchDocuments(query);
+      const documents = await storage.searchDocuments(query, userId);
       res.json(documents);
     } catch (error) {
       res.status(500).json({ message: "Failed to search documents" });
@@ -30,10 +48,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get documents by category
-  app.get("/api/documents/category/:category", async (req, res) => {
+  app.get("/api/documents/category/:category", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const { category } = req.params;
-      const documents = await storage.getDocumentsByCategory(category);
+      const documents = await storage.getDocumentsByCategory(category, userId);
       res.json(documents);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch documents by category" });
@@ -41,10 +60,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get expiring documents
-  app.get("/api/documents/expiring", async (req, res) => {
+  app.get("/api/documents/expiring", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const days = req.query.days ? parseInt(req.query.days as string) : 90;
-      const documents = await storage.getExpiringDocuments(days);
+      const documents = await storage.getExpiringDocuments(days, userId);
       res.json(documents);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch expiring documents" });
@@ -52,9 +72,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get document stats
-  app.get("/api/documents/stats", async (req, res) => {
+  app.get("/api/documents/stats", isAuthenticated, async (req: any, res) => {
     try {
-      const stats = await storage.getDocumentStats();
+      const userId = req.user.claims.sub;
+      const stats = await storage.getDocumentStats(userId);
       res.json(stats);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch document stats" });
@@ -62,10 +83,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get single document
-  app.get("/api/documents/:id", async (req, res) => {
+  app.get("/api/documents/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const id = parseInt(req.params.id);
-      const document = await storage.getDocument(id);
+      const userId = req.user.claims.sub;
+      const id = req.params.id;
+      const document = await storage.getDocument(id, userId);
       if (!document) {
         return res.status(404).json({ message: "Document not found" });
       }
@@ -76,10 +98,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create document
-  app.post("/api/documents", async (req, res) => {
+  app.post("/api/documents", isAuthenticated, async (req: any, res) => {
     try {
+      const userId = req.user.claims.sub;
       const validatedData = insertDocumentSchema.parse(req.body);
-      const document = await storage.createDocument(validatedData);
+      const document = await storage.createDocument(validatedData, userId);
       res.status(201).json(document);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -93,11 +116,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update document
-  app.patch("/api/documents/:id", async (req, res) => {
+  app.patch("/api/documents/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const id = parseInt(req.params.id);
+      const userId = req.user.claims.sub;
+      const id = req.params.id;
       const updates = insertDocumentSchema.partial().parse(req.body);
-      const document = await storage.updateDocument(id, updates);
+      const document = await storage.updateDocument(id, updates, userId);
       if (!document) {
         return res.status(404).json({ message: "Document not found" });
       }
@@ -114,10 +138,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete document
-  app.delete("/api/documents/:id", async (req, res) => {
+  app.delete("/api/documents/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const id = parseInt(req.params.id);
-      const deleted = await storage.deleteDocument(id);
+      const userId = req.user.claims.sub;
+      const id = req.params.id;
+      const deleted = await storage.deleteDocument(id, userId);
       if (!deleted) {
         return res.status(404).json({ message: "Document not found" });
       }

@@ -1,7 +1,14 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Settings } from "lucide-react";
+import { Search, Settings, LogOut, FileText } from "lucide-react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface HeaderProps {
   searchQuery?: string;
@@ -11,36 +18,57 @@ interface HeaderProps {
 
 export default function Header({ searchQuery = "", onSearchChange, hideSearch = false }: HeaderProps) {
   const [, setLocation] = useLocation();
+  const { user, isAuthenticated } = useAuth();
+
+  const handleLogout = () => {
+    window.location.href = "/api/logout";
+  };
 
   return (
-    <header className="bg-[var(--papertrail-primary)] text-white px-4 py-3 material-shadow">
+    <header className="glass-header sticky top-0 z-50 px-4 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-6 h-6 bg-white rounded text-[var(--papertrail-primary)] flex items-center justify-center text-sm font-bold">
-            P
+          <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
+            <FileText className="h-5 w-5 text-white" />
           </div>
-          <h1 className="text-lg font-semibold">PaperTrail</h1>
+          <h1 className="text-xl font-bold text-gradient">PaperTrail</h1>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-white hover:bg-white/20"
-          onClick={() => setLocation("/settings")}
-        >
-          <Settings className="h-4 w-4" />
-        </Button>
+        
+        {isAuthenticated && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-secondary/20 focus-ring"
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="glass-card border-0 modern-shadow-lg">
+              <DropdownMenuItem onClick={() => setLocation("/settings")}>
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
       
-      {!hideSearch && (
+      {!hideSearch && isAuthenticated && (
         <div className="mt-3 relative">
           <Input
             type="text"
             placeholder="Search documents..."
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
-            className="w-full bg-white/10 backdrop-blur border-white/20 text-white placeholder:text-white/70 focus:bg-white/20 focus:border-white/40"
+            className="w-full bg-secondary/10 backdrop-blur border-border/20 focus:bg-secondary/20 focus:border-primary/40 focus-ring"
           />
-          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 h-4 w-4" />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         </div>
       )}
     </header>

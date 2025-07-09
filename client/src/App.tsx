@@ -5,17 +5,27 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
+import Landing from "@/pages/landing";
 import Search from "@/pages/search";
 import Reminders from "@/pages/reminders";
 import Settings from "@/pages/settings";
+import { useAuth } from "@/hooks/useAuth";
 
 function Router() {
+  const { isAuthenticated, isLoading } = useAuth();
+
   return (
     <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/search" component={Search} />
-      <Route path="/reminders" component={Reminders} />
-      <Route path="/settings" component={Settings} />
+      {isLoading || !isAuthenticated ? (
+        <Route path="/" component={Landing} />
+      ) : (
+        <>
+          <Route path="/" component={Home} />
+          <Route path="/search" component={Search} />
+          <Route path="/reminders" component={Reminders} />
+          <Route path="/settings" component={Settings} />
+        </>
+      )}
       <Route component={NotFound} />
     </Switch>
   );
