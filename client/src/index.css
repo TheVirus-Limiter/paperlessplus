@@ -195,26 +195,21 @@
     color: white !important;
   }
   
-  /* Fix sync settings text visibility */
-  .space-y-4 .bg-slate-800 *,
-  .space-y-6 .bg-slate-800 * {
+  /* Force all text in settings cards to be visible */
+  .bg-slate-800 * {
     color: white !important;
   }
   
-  .space-y-4 .bg-slate-800 p,
-  .space-y-6 .bg-slate-800 p,
-  .space-y-4 .bg-slate-800 .text-xs,
-  .space-y-6 .bg-slate-800 .text-xs {
+  .bg-slate-800 p:not([class*="font-medium"]) {
     color: rgb(203 213 225) !important; /* slate-300 */
   }
   
-  /* Specific targeting for sync cards */
-  [class*="CardDescription"] {
-    color: rgb(148 163 184) !important; /* slate-400 */
+  .bg-slate-800 .text-xs {
+    color: rgb(203 213 225) !important; /* slate-300 */
   }
   
-  [class*="CardTitle"] {
-    color: white !important;
+  .bg-slate-800 [class*="CardDescription"] {
+    color: rgb(203 213 225) !important; /* slate-300 */
   }
   
   .space-y-4 button:hover,
@@ -271,7 +266,7 @@
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  /* Navigation animations */
+  /* Navigation animations and fixes */
   nav button {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     transform: scale(1);
@@ -283,6 +278,24 @@
   
   nav button:active {
     transform: scale(0.98);
+  }
+  
+  /* Fix navbar positioning and colors */
+  nav {
+    z-index: 50;
+    position: fixed !important;
+    bottom: 0 !important;
+  }
+  
+  /* Remove white border/line under navbar */
+  nav::after,
+  nav::before {
+    display: none !important;
+  }
+  
+  /* Ensure navbar stays visible over content */
+  body {
+    padding-bottom: 80px;
   }
   
   /* Icon animations */

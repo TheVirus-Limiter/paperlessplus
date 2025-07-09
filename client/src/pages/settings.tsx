@@ -51,10 +51,10 @@ export default function Settings() {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative">
+    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative pb-20">
       <Header hideSearch />
       
-      <main className="pb-20 px-4 pt-4">
+      <main className="px-4 pt-4 pb-24">
         <div className="flex items-center gap-3 mb-6">
           <SettingsIcon className="h-6 w-6 text-purple-400" />
           <h1 className="text-xl font-semibold text-white">Settings</h1>

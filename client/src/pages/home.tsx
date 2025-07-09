@@ -44,13 +44,13 @@ export default function Home() {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative text-white">
+    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative text-white pb-20">
       <Header 
         searchQuery={searchQuery} 
         onSearchChange={setSearchQuery}
       />
       
-      <main className="pb-20 px-4">
+      <main className="px-4 pb-24">
         <StatsCards />
         <QuickFilters 
           activeFilter={activeFilter}
