@@ -13,7 +13,7 @@ export default function BottomNavigation() {
   const [location, setLocation] = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-slate-900 border-t border-slate-700 px-4 py-2">
+    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-slate-900 border-t border-slate-700 px-4 py-2 backdrop-blur-lg bg-opacity-95 transition-all duration-300">
       <div className="flex justify-around items-center">
         {navItems.map((item) => {
           const Icon = item.icon;

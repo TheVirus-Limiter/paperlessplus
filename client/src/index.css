@@ -189,9 +189,31 @@
     color: white !important;
   }
   
-  /* Force white text on all settings page buttons */
+  /* Force white text on all settings page buttons and text */
   .space-y-4 button,
   .CardContent button {
+    color: white !important;
+  }
+  
+  /* Fix sync settings text visibility */
+  .space-y-4 .bg-slate-800 *,
+  .space-y-6 .bg-slate-800 * {
+    color: white !important;
+  }
+  
+  .space-y-4 .bg-slate-800 p,
+  .space-y-6 .bg-slate-800 p,
+  .space-y-4 .bg-slate-800 .text-xs,
+  .space-y-6 .bg-slate-800 .text-xs {
+    color: rgb(203 213 225) !important; /* slate-300 */
+  }
+  
+  /* Specific targeting for sync cards */
+  [class*="CardDescription"] {
+    color: rgb(148 163 184) !important; /* slate-400 */
+  }
+  
+  [class*="CardTitle"] {
     color: white !important;
   }
   
@@ -199,6 +221,127 @@
   .CardContent button:hover {
     background-color: rgb(30 41 59) !important; /* slate-800 */
     color: white !important;
+  }
+
+  /* Micro-interactions and animations */
+  
+  /* Button animations */
+  button {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0px);
+  }
+  
+  button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  button:active {
+    transform: translateY(0px);
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Card animations */
+  .modern-shadow,
+  [class*="Card"],
+  .bg-slate-800 {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0px);
+  }
+  
+  .modern-shadow:hover,
+  [class*="Card"]:hover,
+  .bg-slate-800:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Input and form element animations */
+  input, textarea, select {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  input:focus, textarea:focus, select:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.2);
+  }
+  
+  /* Switch animations */
+  [role="switch"] {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Navigation animations */
+  nav button {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1);
+  }
+  
+  nav button:hover {
+    transform: scale(1.05) translateY(-1px);
+  }
+  
+  nav button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Icon animations */
+  svg {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  button:hover svg {
+    transform: scale(1.1);
+  }
+  
+  /* Loading and state animations */
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Fade in animation for new elements */
+  .fade-in {
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0px); }
+  }
+  
+  /* Slide in animation for modals and sheets */
+  .slide-in {
+    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0%); }
+  }
+  
+  /* Pulse animation for notifications */
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  /* Smooth page transitions */
+  main {
+    animation: pageEnter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes pageEnter {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0px); }
   }
 }
 

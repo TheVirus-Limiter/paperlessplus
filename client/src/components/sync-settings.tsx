@@ -156,7 +156,7 @@ export default function SyncSettings() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Cloud Sync Settings */}
       <Card className="bg-slate-800 border-slate-700">
         <CardHeader>
@@ -171,8 +171,8 @@ export default function SyncSettings() {
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <Label htmlFor="auto-sync" className="text-white">Automatic Sync</Label>
-              <p className="text-xs text-slate-400">
+              <Label htmlFor="auto-sync" className="text-white font-medium">Automatic Sync</Label>
+              <p className="text-xs text-slate-300">
                 Sync documents automatically every 15 minutes
               </p>
             </div>
@@ -187,8 +187,8 @@ export default function SyncSettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <Label className="text-white">Manual Sync</Label>
-              <p className="text-xs text-slate-400">
+              <Label className="text-white font-medium">Manual Sync</Label>
+              <p className="text-xs text-slate-300">
                 Last sync: {syncManager.getLastSyncAt()?.toLocaleString() || "Never"}
               </p>
             </div>
@@ -232,7 +232,7 @@ export default function SyncSettings() {
                     </div>
                     <div>
                       <p className="font-medium text-sm text-white">{device.deviceName}</p>
-                      <p className="text-xs text-slate-400 flex items-center gap-1">
+                      <p className="text-xs text-slate-300 flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {formatLastSeen(device.lastSeenAt)}
                       </p>
@@ -294,7 +294,7 @@ export default function SyncSettings() {
                       <p className="text-sm font-medium text-white">
                         {history.action === "sync_down" ? "Downloaded" : "Uploaded"} {history.documentCount} documents
                       </p>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-slate-300">
                         {new Date(history.createdAt).toLocaleString()}
                       </p>
                     </div>
