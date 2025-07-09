@@ -56,25 +56,25 @@ export default function Settings() {
       
       <main className="pb-20 px-4 pt-4">
         <div className="flex items-center gap-3 mb-6">
-          <SettingsIcon className="h-6 w-6 text-[var(--papertrail-primary)]" />
+          <SettingsIcon className="h-6 w-6 text-purple-400" />
           <h1 className="text-xl font-semibold text-white">Settings</h1>
         </div>
 
         <div className="space-y-4">
           {/* Notifications */}
-          <Card>
+          <Card className="bg-slate-800 border-slate-700">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Bell className="h-4 w-4" />
+              <CardTitle className="flex items-center gap-2 text-base text-white">
+                <Bell className="h-4 w-4 text-purple-400" />
                 Notifications
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-slate-400">
                 Get reminders about expiring documents
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label htmlFor="notifications">Enable Notifications</Label>
+                <Label htmlFor="notifications" className="text-white">Enable Notifications</Label>
                 <Switch
                   id="notifications"
                   checked={notificationsEnabled}
@@ -89,7 +89,7 @@ export default function Settings() {
               
               {notificationsEnabled && (
                 <div className="space-y-2">
-                  <Label>Remind me before expiration</Label>
+                  <Label className="text-white">Remind me before expiration</Label>
                   <div className="grid grid-cols-3 gap-2">
                     {[7, 30, 90].map((days) => (
                       <Button
@@ -112,13 +112,13 @@ export default function Settings() {
           <SyncSettings />
 
           {/* Data Management */}
-          <Card>
+          <Card className="bg-slate-800 border-slate-700">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Shield className="h-4 w-4" />
+              <CardTitle className="flex items-center gap-2 text-base text-white">
+                <Shield className="h-4 w-4 text-purple-400" />
                 Data & Privacy
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-slate-400">
                 Manage your document data
               </CardDescription>
             </CardHeader>
@@ -132,24 +132,24 @@ export default function Settings() {
                 Export Documents
               </Button>
               
-              <div className="text-sm text-gray-600 p-3 bg-gray-50 rounded-lg">
-                <Shield className="h-4 w-4 inline mr-2" />
+              <div className="text-sm text-slate-300 p-3 bg-slate-700 rounded-lg">
+                <Shield className="h-4 w-4 inline mr-2 text-green-400" />
                 Your data is stored locally on your device. No information is uploaded to external servers.
               </div>
             </CardContent>
           </Card>
 
           {/* About */}
-          <Card>
+          <Card className="bg-slate-800 border-slate-700">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Info className="h-4 w-4" />
+              <CardTitle className="flex items-center gap-2 text-base text-white">
+                <Info className="h-4 w-4 text-purple-400" />
                 About PaperTrail
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="text-sm text-gray-600">
-                <p className="mb-2">Version 1.0.0</p>
+              <div className="text-sm text-slate-300">
+                <p className="mb-2"><strong className="text-white">Version:</strong> 1.0.0</p>
                 <p>
                   A privacy-focused document organization app that helps you track important papers without scanning or uploading them.
                 </p>
@@ -170,7 +170,7 @@ export default function Settings() {
               
               <Button 
                 variant="ghost" 
-                className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-slate-700"
                 onClick={handleLogout}
               >
                 <LogOut className="h-4 w-4 mr-2" />

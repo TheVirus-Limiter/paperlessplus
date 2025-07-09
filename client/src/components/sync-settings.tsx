@@ -158,21 +158,21 @@ export default function SyncSettings() {
   return (
     <div className="space-y-6">
       {/* Cloud Sync Settings */}
-      <Card>
+      <Card className="bg-slate-800 border-slate-700">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Cloud className="h-5 w-5 text-purple-500" />
+          <CardTitle className="flex items-center gap-2 text-white">
+            <Cloud className="h-5 w-5 text-purple-400" />
             Cloud Sync
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-slate-400">
             Keep your documents synchronized across all your devices
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <Label htmlFor="auto-sync">Automatic Sync</Label>
-              <p className="text-xs text-gray-500">
+              <Label htmlFor="auto-sync" className="text-white">Automatic Sync</Label>
+              <p className="text-xs text-slate-400">
                 Sync documents automatically every 15 minutes
               </p>
             </div>
@@ -187,8 +187,8 @@ export default function SyncSettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <Label>Manual Sync</Label>
-              <p className="text-xs text-gray-500">
+              <Label className="text-white">Manual Sync</Label>
+              <p className="text-xs text-slate-400">
                 Last sync: {syncManager.getLastSyncAt()?.toLocaleString() || "Never"}
               </p>
             </div>
@@ -206,31 +206,33 @@ export default function SyncSettings() {
       </Card>
 
       {/* Connected Devices */}
-      <Card>
+      <Card className="bg-slate-800 border-slate-700">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Smartphone className="h-5 w-5 text-blue-500" />
+          <CardTitle className="flex items-center gap-2 text-white">
+            <Smartphone className="h-5 w-5 text-purple-400" />
             Connected Devices
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-slate-400">
             Manage devices that have access to your documents
           </CardDescription>
         </CardHeader>
         <CardContent>
           {devices.length === 0 ? (
-            <p className="text-sm text-gray-500">No devices connected</p>
+            <p className="text-sm text-slate-400">No devices connected</p>
           ) : (
             <div className="space-y-3">
               {devices.map((device: UserDevice) => (
                 <div
                   key={device.id}
-                  className="flex items-center justify-between p-3 rounded-lg border"
+                  className="flex items-center justify-between p-3 rounded-lg border border-slate-600 bg-slate-700"
                 >
                   <div className="flex items-center gap-3">
-                    {getDeviceIcon(device.deviceType)}
+                    <div className="text-purple-400">
+                      {getDeviceIcon(device.deviceType)}
+                    </div>
                     <div>
-                      <p className="font-medium text-sm">{device.deviceName}</p>
-                      <p className="text-xs text-gray-500 flex items-center gap-1">
+                      <p className="font-medium text-sm text-white">{device.deviceName}</p>
+                      <p className="text-xs text-slate-400 flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {formatLastSeen(device.lastSeenAt)}
                       </p>
@@ -248,7 +250,7 @@ export default function SyncSettings() {
                         size="sm"
                         onClick={() => deactivateDeviceMutation.mutate(device.id)}
                         disabled={deactivateDeviceMutation.isPending}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        className="text-red-400 hover:text-red-300 hover:bg-slate-600"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -262,25 +264,25 @@ export default function SyncSettings() {
       </Card>
 
       {/* Sync History */}
-      <Card>
+      <Card className="bg-slate-800 border-slate-700">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5 text-green-500" />
+          <CardTitle className="flex items-center gap-2 text-white">
+            <Clock className="h-5 w-5 text-purple-400" />
             Sync History
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-slate-400">
             Recent synchronization activity
           </CardDescription>
         </CardHeader>
         <CardContent>
           {syncHistory.length === 0 ? (
-            <p className="text-sm text-gray-500">No sync history available</p>
+            <p className="text-sm text-slate-400">No sync history available</p>
           ) : (
             <div className="space-y-2">
               {syncHistory.slice(0, 5).map((history: SyncHistory) => (
                 <div
                   key={history.id}
-                  className="flex items-center justify-between p-2 rounded border-l-4 border-l-purple-500 bg-purple-50"
+                  className="flex items-center justify-between p-2 rounded border-l-4 border-l-purple-400 bg-slate-700"
                 >
                   <div className="flex items-center gap-2">
                     {history.status === "success" ? (
@@ -289,10 +291,10 @@ export default function SyncSettings() {
                       <AlertCircle className="h-4 w-4 text-red-500" />
                     )}
                     <div>
-                      <p className="text-sm font-medium">
+                      <p className="text-sm font-medium text-white">
                         {history.action === "sync_down" ? "Downloaded" : "Uploaded"} {history.documentCount} documents
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-slate-400">
                         {new Date(history.createdAt).toLocaleString()}
                       </p>
                     </div>
