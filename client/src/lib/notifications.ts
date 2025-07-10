@@ -127,9 +127,9 @@ export function initializeNotificationChecks(): void {
   setInterval(async () => {
     if (notificationManager.canShowNotifications()) {
       try {
-        // This would need to be implemented to work with the API
-        const response = await fetch("/api/documents/expiring?days=30");
-        const expiringDocs = await response.json();
+        // Use local IndexedDB instead of API
+        const { documentDB } = await import("./db");
+        const expiringDocs = await documentDB.getExpiringDocuments(30);
         notificationManager.checkExpiringDocuments(expiringDocs);
       } catch (error) {
         console.error("Failed to check expiring documents:", error);

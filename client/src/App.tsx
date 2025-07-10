@@ -10,6 +10,7 @@ import Search from "@/pages/search";
 import Reminders from "@/pages/reminders";
 import Settings from "@/pages/settings";
 import { documentDB } from "@/lib/db";
+import { initializeNotificationChecks } from "@/lib/notifications";
 import BottomNavigation from "@/components/bottom-navigation";
 
 function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
@@ -104,9 +105,11 @@ function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
 }
 
 function Router() {
-  // Initialize local database  
+  // Initialize local database and notifications
   useEffect(() => {
     documentDB.initialize();
+    // Initialize notification checks for expiring documents
+    initializeNotificationChecks();
   }, []);
 
   return (

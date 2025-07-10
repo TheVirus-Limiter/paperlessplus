@@ -1,28 +1,60 @@
+import { useState, useEffect } from "react";
 import Header from "@/components/header";
 import BottomNavigation from "@/components/bottom-navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Settings as SettingsIcon, Download, Bell, Shield, Info, HelpCircle, LogOut } from "lucide-react";
-import { useState } from "react";
-import { exportDocuments } from "@/lib/export";
+import { Bell, Download, Upload, Trash2, RefreshCw } from "lucide-react";
+import { notificationManager } from "@/lib/notifications";
+import { exportDocuments, importDocuments } from "@/lib/export";
+import { documentDB } from "@/lib/db";
 import { useToast } from "@/hooks/use-toast";
-import SyncSettings from "@/components/sync-settings";
-import { cleanupSync } from "@/lib/syncManager";
 
 export default function Settings() {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [reminderDays, setReminderDays] = useState(30);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [isClearingData, setIsClearingData] = useState(false);
   const { toast } = useToast();
 
+  useEffect(() => {
+    // Check current notification permission
+    setNotificationsEnabled(notificationManager.canShowNotifications());
+  }, []);
+
+  const handleNotificationToggle = async (enabled: boolean) => {
+    if (enabled) {
+      const permission = await notificationManager.requestPermission();
+      setNotificationsEnabled(permission === "granted");
+      
+      if (permission === "granted") {
+        toast({
+          title: "Notifications Enabled",
+          description: "You'll receive reminders for expiring documents.",
+        });
+      } else {
+        toast({
+          title: "Notifications Blocked",
+          description: "Please enable notifications in your browser settings.",
+          variant: "destructive",
+        });
+      }
+    } else {
+      setNotificationsEnabled(false);
+      toast({
+        title: "Notifications Disabled",
+        description: "You won't receive reminders anymore.",
+      });
+    }
+  };
+
   const handleExport = async () => {
+    setIsExporting(true);
     try {
       await exportDocuments();
       toast({
-        title: "Export Successful",
-        description: "Your documents have been exported to a JSON file.",
+        title: "Export Complete",
+        description: "Your documents have been exported successfully.",
       });
     } catch (error) {
       toast({
@@ -30,155 +62,180 @@ export default function Settings() {
         description: "There was an error exporting your documents.",
         variant: "destructive",
       });
+    } finally {
+      setIsExporting(false);
     }
   };
 
-  const requestNotificationPermission = async () => {
-    if ("Notification" in window) {
-      const permission = await Notification.requestPermission();
-      if (permission === "granted") {
+  const handleImport = async () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+
+      setIsImporting(true);
+      try {
+        const importedCount = await importDocuments(file);
         toast({
-          title: "Notifications Enabled",
-          description: "You'll receive reminders about expiring documents.",
+          title: "Import Complete",
+          description: `Successfully imported ${importedCount} documents.`,
         });
+      } catch (error) {
+        toast({
+          title: "Import Failed",
+          description: "There was an error importing your documents.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsImporting(false);
       }
+    };
+
+    input.click();
+  };
+
+  const handleClearData = async () => {
+    if (!confirm("Are you sure you want to delete all your documents? This action cannot be undone.")) {
+      return;
+    }
+
+    setIsClearingData(true);
+    try {
+      const documents = await documentDB.getAllDocuments();
+      for (const doc of documents) {
+        await documentDB.deleteDocument(doc.id!);
+      }
+      
+      toast({
+        title: "Data Cleared",
+        description: "All documents have been deleted.",
+      });
+    } catch (error) {
+      toast({
+        title: "Clear Failed",
+        description: "There was an error clearing your data.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsClearingData(false);
     }
   };
 
-  const handleLogout = () => {
-    cleanupSync();
-    window.location.href = "/api/logout";
+  const resetOnboarding = () => {
+    localStorage.removeItem('paperless-onboarding-complete');
+    window.location.reload();
   };
 
   return (
-    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative pb-20">
+    <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative text-white">
       <Header hideSearch />
       
-      <main className="px-4 pt-4 pb-24">
-        <div className="flex items-center gap-3 mb-6">
-          <SettingsIcon className="h-6 w-6 text-purple-400" />
-          <h1 className="text-xl font-semibold text-white">Settings</h1>
-        </div>
+      <main className="pb-20 px-4 pt-4">
+        <h1 className="text-xl font-semibold text-white mb-6">Settings</h1>
 
-        <div className="space-y-4">
-          {/* Notifications */}
-          <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base text-white">
-                <Bell className="h-4 w-4 text-purple-400" />
-                Notifications
-              </CardTitle>
-              <CardDescription className="text-slate-400">
-                Get reminders about expiring documents
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="notifications" className="text-white">Enable Notifications</Label>
-                <Switch
-                  id="notifications"
-                  checked={notificationsEnabled}
-                  onCheckedChange={(checked) => {
-                    setNotificationsEnabled(checked);
-                    if (checked) {
-                      requestNotificationPermission();
-                    }
-                  }}
-                />
+        {/* Notifications */}
+        <Card className="material-shadow bg-slate-800 border-slate-700 mb-4">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Bell className="h-5 w-5" />
+              Notifications
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-white">Expiration Reminders</p>
+                <p className="text-xs text-slate-400">Get notified when documents are expiring</p>
               </div>
-              
-              {notificationsEnabled && (
-                <div className="space-y-2">
-                  <Label className="text-white">Remind me before expiration</Label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[7, 30, 90].map((days) => (
-                      <Button
-                        key={days}
-                        variant={reminderDays === days ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setReminderDays(days)}
-                        className={`text-xs ${reminderDays === days ? 'bg-purple-600 text-white hover:bg-purple-700' : 'border-slate-400 text-white hover:bg-slate-800 hover:text-white'}`}
-                      >
-                        {days} days
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+              <Switch
+                checked={notificationsEnabled}
+                onCheckedChange={handleNotificationToggle}
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-          {/* Cloud Sync Settings */}
-          <SyncSettings />
-
-          {/* Data Management */}
-          <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base text-white">
-                <Shield className="h-4 w-4 text-purple-400" />
-                Data & Privacy
-              </CardTitle>
-              <CardDescription className="text-slate-400">
-                Manage your document data
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Button 
-                variant="outline" 
-                className="w-full justify-start border-slate-400 text-white hover:bg-slate-800 hover:text-white"
-                onClick={handleExport}
-              >
+        {/* Data Management */}
+        <Card className="material-shadow bg-slate-800 border-slate-700 mb-4">
+          <CardHeader>
+            <CardTitle className="text-white">Data Management</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button
+              onClick={handleExport}
+              disabled={isExporting}
+              className="w-full justify-start bg-slate-700 hover:bg-slate-600 text-white"
+            >
+              {isExporting ? (
+                <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
                 <Download className="h-4 w-4 mr-2" />
-                Export Documents
-              </Button>
-              
-              <div className="text-sm text-slate-300 p-3 bg-slate-700 rounded-lg">
-                <Shield className="h-4 w-4 inline mr-2 text-green-400" />
-                Your data is stored locally on your device. No information is uploaded to external servers.
-              </div>
-            </CardContent>
-          </Card>
+              )}
+              Export Documents
+            </Button>
+            
+            <Button
+              onClick={handleImport}
+              disabled={isImporting}
+              className="w-full justify-start bg-slate-700 hover:bg-slate-600 text-white"
+            >
+              {isImporting ? (
+                <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
+                <Upload className="h-4 w-4 mr-2" />
+              )}
+              Import Documents
+            </Button>
+            
+            <Button
+              onClick={handleClearData}
+              disabled={isClearingData}
+              variant="destructive"
+              className="w-full justify-start"
+            >
+              {isClearingData ? (
+                <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4 mr-2" />
+              )}
+              Clear All Data
+            </Button>
+          </CardContent>
+        </Card>
 
-          {/* About */}
-          <Card className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base text-white">
-                <Info className="h-4 w-4 text-purple-400" />
-                About PaperTrail
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="text-sm text-slate-300">
-                <p className="mb-2"><strong className="text-white">Version:</strong> 1.0.0</p>
-                <p>
-                  A privacy-focused document organization app that helps you track important papers without scanning or uploading them.
-                </p>
-              </div>
-              
-              <Separator />
-              
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start text-white hover:bg-slate-800 hover:text-white"
-                onClick={() => window.open("mailto:support@papertrail.app", "_blank")}
-              >
-                <HelpCircle className="h-4 w-4 mr-2" />
-                Help & Support
-              </Button>
-              
-              <Separator />
-              
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-slate-700"
-                onClick={handleLogout}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        {/* App Settings */}
+        <Card className="material-shadow bg-slate-800 border-slate-700 mb-4">
+          <CardHeader>
+            <CardTitle className="text-white">App Settings</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button
+              onClick={resetOnboarding}
+              className="w-full justify-start bg-slate-700 hover:bg-slate-600 text-white"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Reset Onboarding
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* About */}
+        <Card className="material-shadow bg-slate-800 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">About Paperless+</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-slate-300 mb-2">
+              Privacy-focused document tracking for a paperless lifestyle.
+            </p>
+            <p className="text-xs text-slate-400">
+              Version 1.0 • Your documents stay on your device
+            </p>
+          </CardContent>
+        </Card>
       </main>
       
       <BottomNavigation />
