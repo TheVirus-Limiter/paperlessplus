@@ -109,6 +109,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (July 2025)
 
+### ✓ Google Sign-In Integration with Onboarding Flow
+- **Date**: July 10, 2025
+- **Changes**: Added Google OAuth authentication alongside email/password, restructured app to show onboarding slideshow before authentication
+- **Impact**: Users now see welcome slideshow introduction before choosing Google Sign-In or email authentication
+- **Authentication Flow**: Onboarding slideshow → authentication choice → secure login → app access
+- **Technical Details**: Passport.js Google OAuth strategy, conditional route handling, fallback for unconfigured credentials
+
 ### ✓ Working Email/Password Authentication System
 - **Date**: July 10, 2025
 - **Changes**: Replaced non-functional Replit Auth with working email/password authentication

@@ -84,7 +84,7 @@ export function setupAuth(app: Express) {
     }
   });
 
-  // Google OAuth Strategy
+  // Google OAuth Strategy - only initialize if credentials are provided
   if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     passport.use(new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
@@ -208,21 +208,28 @@ export function setupAuth(app: Express) {
     });
   });
 
-  // Google OAuth routes
-  app.get('/api/auth/google', 
-    passport.authenticate('google', { scope: ['profile', 'email'] })
-  );
+  // Google OAuth routes - only if credentials are configured
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    app.get('/api/auth/google', 
+      passport.authenticate('google', { scope: ['profile', 'email'] })
+    );
 
-  app.get('/api/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/auth?error=google_auth_failed' }),
-    (req: AuthRequest, res: Response) => {
-      // Set session for passport user
-      if (req.user) {
-        req.session.userId = req.user.id;
+    app.get('/api/auth/google/callback', 
+      passport.authenticate('google', { failureRedirect: '/auth?error=google_auth_failed' }),
+      (req: AuthRequest, res: Response) => {
+        // Set session for passport user
+        if (req.user) {
+          req.session.userId = req.user.id;
+        }
+        res.redirect('/');
       }
-      res.redirect('/');
-    }
-  );
+    );
+  } else {
+    // Fallback route when Google OAuth is not configured
+    app.get('/api/auth/google', (req: AuthRequest, res: Response) => {
+      res.redirect('/auth?error=google_not_configured');
+    });
+  }
 
   // Get current user
   app.get('/api/auth/user', async (req: AuthRequest, res: Response) => {
