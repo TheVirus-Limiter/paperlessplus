@@ -15,6 +15,7 @@ import {
   Phone
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 
 export default function Onboarding() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -25,11 +26,12 @@ export default function Onboarding() {
     privacyAgreement: false,
   });
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
 
   const steps = [
     {
       id: "welcome",
-      title: "Welcome to PaperTrail",
+      title: "Welcome to Paperless+",
       subtitle: "Let's set up your personal document tracker",
     },
     {
@@ -104,11 +106,15 @@ export default function Onboarding() {
   };
 
   const handleAuthChoice = (method: string) => {
-    // Redirect to auth page
+    // Store user preferences in localStorage for later use
+    localStorage.setItem('onboardingData', JSON.stringify(userData));
+    
     switch (method) {
-      case 'email':
       case 'google':
-        window.location.href = '/';
+        window.location.href = '/api/auth/google';
+        break;
+      case 'email':
+        setLocation('/auth');
         break;
       case 'phone':
         toast({
