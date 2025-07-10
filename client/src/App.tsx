@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Search from "@/pages/search";
+import Timeline from "@/pages/timeline";
 import Reminders from "@/pages/reminders";
 import Settings from "@/pages/settings";
 import { documentDB } from "@/lib/db";
@@ -117,6 +118,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/search" component={Search} />
+        <Route path="/timeline" component={Timeline} />
         <Route path="/reminders" component={Reminders} />
         <Route path="/settings" component={Settings} />
         <Route component={NotFound} />

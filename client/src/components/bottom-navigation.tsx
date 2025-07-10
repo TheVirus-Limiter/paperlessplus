@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Home, Search, Bell, Settings } from "lucide-react";
+import { Home, Search, Clock, Bell, Settings } from "lucide-react";
 import { useLocation } from "wouter";
 
 const navItems = [
   { id: "home", label: "Home", icon: Home, path: "/" },
   { id: "search", label: "Search", icon: Search, path: "/search" },
+  { id: "timeline", label: "Timeline", icon: Clock, path: "/timeline" },
   { id: "reminders", label: "Reminders", icon: Bell, path: "/reminders" },
   { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
 ];
