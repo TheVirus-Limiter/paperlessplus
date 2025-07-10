@@ -1,25 +1,23 @@
 import { Express, Request, Response, NextFunction } from "express";
 import session from "express-session";
-import { createHash, randomBytes } from "crypto";
+import { pbkdf2Sync, randomBytes } from "crypto";
 import { storage } from "./storage";
 import connectPg from "connect-pg-simple";
 import { z } from "zod";
 
 const PostgresSessionStore = connectPg(session);
 
-// Simple password hashing
+// Simple password hashing using pbkdf2
 function hashPassword(password: string): string {
   const salt = randomBytes(16).toString('hex');
-  const hash = createHash('pbkdf2');
-  hash.update(password + salt);
-  return salt + ':' + hash.digest('hex');
+  const hash = pbkdf2Sync(password, salt, 1000, 64, 'sha512');
+  return salt + ':' + hash.toString('hex');
 }
 
 function verifyPassword(password: string, hashedPassword: string): boolean {
   const [salt, hash] = hashedPassword.split(':');
-  const testHash = createHash('pbkdf2');
-  testHash.update(password + salt);
-  return hash === testHash.digest('hex');
+  const testHash = pbkdf2Sync(password, salt, 1000, 64, 'sha512');
+  return hash === testHash.toString('hex');
 }
 
 // Request types
@@ -79,8 +77,8 @@ export function setupAuth(app: Express) {
         id: userId,
         email,
         password: hashedPassword,
-        firstName,
-        lastName,
+        firstName: firstName || null,
+        lastName: lastName || null,
         authProvider: "email"
       });
 
