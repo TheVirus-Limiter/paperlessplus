@@ -1,14 +1,12 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MapPin, Edit, Trash2, FileText, SortDesc } from "lucide-react";
 import { format } from "date-fns";
-import { useState } from "react";
-import { apiRequest } from "@/lib/queryClient";
+import { documentDB } from "@/lib/db";
 import { useToast } from "@/hooks/use-toast";
-import type { Document } from "@shared/schema";
 import { CATEGORIES, URGENCY_TAGS } from "@shared/schema";
 
 interface DocumentListProps {
@@ -18,47 +16,54 @@ interface DocumentListProps {
 
 export default function DocumentList({ searchQuery, activeFilter }: DocumentListProps) {
   const [sortBy, setSortBy] = useState<"date" | "title">("date");
-  const queryClient = useQueryClient();
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  // Build query key based on filters
-  const getQueryKey = () => {
-    if (searchQuery) {
-      return ["/api/documents/search", { q: searchQuery }];
-    }
-    if (activeFilter === "expiring") {
-      return ["/api/documents/expiring"];
-    }
-    if (activeFilter !== "all") {
-      return ["/api/documents/category", activeFilter];
-    }
-    return ["/api/documents"];
-  };
+  useEffect(() => {
+    const loadDocuments = async () => {
+      setIsLoading(true);
+      try {
+        let docs: any[] = [];
+        
+        if (searchQuery) {
+          docs = await documentDB.searchDocuments(searchQuery);
+        } else if (activeFilter === "expiring") {
+          docs = await documentDB.getExpiringDocuments(30);
+        } else if (activeFilter !== "all") {
+          const allDocs = await documentDB.getAllDocuments();
+          docs = allDocs.filter(doc => doc.category === activeFilter);
+        } else {
+          docs = await documentDB.getAllDocuments();
+        }
+        
+        setDocuments(docs);
+      } catch (error) {
+        console.error('Error loading documents:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadDocuments();
+  }, [searchQuery, activeFilter]);
 
-  const { data: documents = [], isLoading } = useQuery<Document[]>({
-    queryKey: getQueryKey(),
-  });
-
-  const deleteDocumentMutation = useMutation({
-    mutationFn: async (id: number) => {
-      await apiRequest("DELETE", `/api/documents/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/documents"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/documents/stats"] });
+  const deleteDocument = async (id: number) => {
+    try {
+      await documentDB.deleteDocument(id);
+      setDocuments(docs => docs.filter(doc => doc.id !== id));
       toast({
         title: "Document Deleted",
         description: "The document has been successfully deleted.",
       });
-    },
-    onError: () => {
+    } catch (error) {
       toast({
         title: "Delete Failed",
         description: "There was an error deleting the document.",
         variant: "destructive",
       });
-    },
-  });
+    }
+  };
 
   // Sort documents
   const sortedDocuments = [...documents].sort((a, b) => {
@@ -210,8 +215,7 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-slate-400 hover:text-red-400"
-                        onClick={() => deleteDocumentMutation.mutate(doc.id)}
-                        disabled={deleteDocumentMutation.isPending}
+                        onClick={() => deleteDocument(doc.id)}
                       >
                         <Trash2 className="h-3 w-3" />
                       </Button>

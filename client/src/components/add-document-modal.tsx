@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,18 +23,22 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { X, CreditCard, Gavel, Heart, DollarSign, Camera, Image } from "lucide-react";
-import { apiRequest } from "@/lib/queryClient";
+import { documentDB } from "@/lib/db";
 import { useToast } from "@/hooks/use-toast";
-import { insertDocumentSchema, CATEGORIES, URGENCY_TAGS } from "@shared/schema";
+import { CATEGORIES, URGENCY_TAGS } from "@shared/schema";
 import CameraCapture from "./camera-capture";
-import { isUnauthorizedError } from "@/lib/authUtils";
 
 interface AddDocumentModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const formSchema = insertDocumentSchema.extend({
+const formSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  location: z.string().min(1, "Location is required"), 
+  description: z.string().optional(),
+  category: z.string().min(1, "Category is required"),
+  urgencyTags: z.array(z.string()).default([]),
   expirationDate: z.string().optional(),
 });
 
@@ -52,7 +55,7 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
   const [selectedUrgencyTags, setSelectedUrgencyTags] = useState<string[]>([]);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const queryClient = useQueryClient();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
@@ -67,44 +70,30 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
     },
   });
 
-  const createDocumentMutation = useMutation({
-    mutationFn: async (data: FormData) => {
+  const createDocument = async (data: FormData) => {
+    setIsSubmitting(true);
+    try {
       const submitData = {
         ...data,
         urgencyTags: selectedUrgencyTags,
-        expirationDate: data.expirationDate ? new Date(data.expirationDate) : null,
+        expirationDate: data.expirationDate ? new Date(data.expirationDate) : undefined,
       };
-      const response = await apiRequest("POST", "/api/documents", submitData);
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/documents"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/documents/stats"] });
+      await documentDB.addDocument(submitData);
       toast({
         title: "Document Added",
         description: "Your document has been successfully added.",
       });
       handleClose();
-    },
-    onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-        return;
-      }
+    } catch (error) {
       toast({
         title: "Error",
         description: "There was an error adding your document.",
         variant: "destructive",
       });
-    },
-  });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleClose = () => {
     form.reset();
@@ -119,7 +108,7 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
   };
 
   const onSubmit = (data: FormData) => {
-    createDocumentMutation.mutate(data);
+    createDocument(data);
   };
 
   const toggleUrgencyTag = (tagId: string) => {
@@ -321,9 +310,9 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
                 <Button 
                   type="submit" 
                   className="flex-1 gradient-primary hover:opacity-90 transition-opacity focus-ring"
-                  disabled={createDocumentMutation.isPending}
+                  disabled={isSubmitting}
                 >
-                  {createDocumentMutation.isPending ? "Adding..." : "Add Document"}
+                  {isSubmitting ? "Adding..." : "Add Document"}
                 </Button>
               </div>
             </form>

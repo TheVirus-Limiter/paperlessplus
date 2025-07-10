@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { documentDB } from "@/lib/db";
 
 interface DocumentStats {
   totalDocs: number;
@@ -8,9 +9,30 @@ interface DocumentStats {
 }
 
 export default function StatsCards() {
-  const { data: stats, isLoading } = useQuery<DocumentStats>({
-    queryKey: ["/api/documents/stats"],
-  });
+  const [stats, setStats] = useState<DocumentStats>({ totalDocs: 0, expiringDocs: 0, categories: 0 });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const documents = await documentDB.getAllDocuments();
+        const expiringDocs = await documentDB.getExpiringDocuments(30);
+        const categories = new Set(documents.map(doc => doc.category));
+        
+        setStats({
+          totalDocs: documents.length,
+          expiringDocs: expiringDocs.length,
+          categories: categories.size
+        });
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadStats();
+  }, []);
 
   if (isLoading) {
     return (
