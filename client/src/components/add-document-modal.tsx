@@ -121,44 +121,55 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="w-full sm:max-w-md h-full sm:h-auto overflow-y-auto bg-slate-800 border border-slate-700 text-white p-4 sm:p-6 rounded-lg sm:rounded-lg">
-          <DialogHeader>
-            <DialogTitle className="text-white">
-              Add Document
-            </DialogTitle>
-            <DialogDescription className="text-slate-300">
-              Track a new document by adding its details below. This helps you organize and remember important paperwork.
-            </DialogDescription>
-          </DialogHeader>
-
-          {/* Camera Preview */}
-          {capturedImage && (
-            <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-medium flex items-center gap-2">
-                  <Image className="h-4 w-4" />
-                  Document Photo
-                </h4>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setCapturedImage(null)}
-                  className="hover:bg-destructive/20 text-destructive"
+      {/* Custom Mobile Modal */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center p-4 overflow-y-auto"
+          onClick={handleClose}
+        >
+          <div 
+            className="bg-slate-800 border border-slate-700 text-white rounded-lg w-full max-w-md my-8 min-h-fit"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold text-white">Add Document</h2>
+                <button
+                  onClick={handleClose}
+                  className="text-slate-400 hover:text-white p-1 rounded"
                 >
-                  Remove
-                </Button>
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <img
-                src={capturedImage}
-                alt="Captured document"
-                className="w-full h-32 object-cover rounded border"
-              />
-            </div>
-          )}
+              <p className="text-slate-300 text-sm mb-6">
+                Track a new document by adding its details below. This helps you organize and remember important paperwork.
+              </p>
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              {/* Camera Preview */}
+              {capturedImage && (
+                <div className="bg-slate-700 p-4 rounded-lg border border-slate-600 mb-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-sm font-medium flex items-center gap-2">
+                      <Image className="h-4 w-4" />
+                      Document Photo
+                    </h4>
+                    <button
+                      onClick={() => setCapturedImage(null)}
+                      className="text-red-400 hover:text-red-300 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <img
+                    src={capturedImage}
+                    alt="Captured document"
+                    className="w-full h-32 object-cover rounded border"
+                  />
+                </div>
+              )}
+
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="title"
@@ -290,27 +301,28 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
                 </Button>
               </div>
 
-              <div className="flex gap-3 pt-4">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="flex-1 bg-slate-700 border-slate-600 text-white hover:bg-slate-600"
-                  onClick={handleClose}
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  type="submit" 
-                  className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Adding..." : "Add Document"}
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
+                  <div className="flex gap-3 pt-4">
+                    <button 
+                      type="button" 
+                      className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 text-white rounded-md hover:bg-slate-600"
+                      onClick={handleClose}
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      type="submit" 
+                      className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md disabled:opacity-50"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Adding..." : "Add Document"}
+                    </button>
+                  </div>
+                </form>
+              </Form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Camera Capture Modal */}
       <CameraCapture
