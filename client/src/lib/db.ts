@@ -9,6 +9,7 @@ interface Document {
   category: string;
   urgencyTags: string[];
   expirationDate?: Date;
+  imageData?: string; // Base64 encoded image
   createdAt: Date;
   updatedAt: Date;
 }

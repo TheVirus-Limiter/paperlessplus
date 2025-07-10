@@ -78,6 +78,7 @@ export default function AddDocumentModal({ isOpen, onClose, onDocumentAdded }: A
         ...data,
         urgencyTags: selectedUrgencyTags,
         expirationDate: data.expirationDate ? new Date(data.expirationDate) : undefined,
+        imageData: capturedImage || undefined,
       };
       await documentDB.addDocument(submitData);
       toast({

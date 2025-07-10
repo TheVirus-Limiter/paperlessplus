@@ -62,7 +62,7 @@ export default function EditDocumentModal({ isOpen, onClose, document, onUpdate 
           : "",
       });
       setSelectedUrgencyTags(document.urgencyTags || []);
-      setCapturedImage(null);
+      setCapturedImage(document.imageData || null);
     }
   }, [document, isOpen, form]);
 
@@ -75,6 +75,7 @@ export default function EditDocumentModal({ isOpen, onClose, document, onUpdate 
         ...data,
         urgencyTags: selectedUrgencyTags,
         expirationDate: data.expirationDate ? new Date(data.expirationDate) : undefined,
+        imageData: capturedImage || document.imageData,
       };
       
       await documentDB.updateDocument(document.id, updateData);

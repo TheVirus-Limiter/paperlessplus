@@ -3,12 +3,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MapPin, Edit, Trash2, FileText, SortDesc } from "lucide-react";
+import { MapPin, Edit, Trash2, FileText, SortDesc, Image } from "lucide-react";
 import { format } from "date-fns";
 import { documentDB } from "@/lib/db";
 import { useToast } from "@/hooks/use-toast";
 import { CATEGORIES, URGENCY_TAGS } from "@shared/schema";
 import EditDocumentModal from "./edit-document-modal";
+import ImageViewer from "./image-viewer";
 
 interface DocumentListProps {
   searchQuery: string;
@@ -22,6 +23,7 @@ export default function DocumentList({ searchQuery, activeFilter, onDocumentChan
   const [isLoading, setIsLoading] = useState(true);
   const [editingDocument, setEditingDocument] = useState<any>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [viewingImage, setViewingImage] = useState<{doc: any} | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -248,6 +250,16 @@ export default function DocumentList({ searchQuery, activeFilter, onDocumentChan
                       Updated {format(new Date(doc.updatedAt!), "MMM d, yyyy")}
                     </span>
                     <div className="flex gap-2">
+                      {doc.imageData && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-slate-400 hover:text-blue-400"
+                          onClick={() => setViewingImage({doc})}
+                        >
+                          <Image className="h-3 w-3" />
+                        </Button>
+                      )}
                       <Button
                         variant="ghost"
                         size="icon"
@@ -280,6 +292,16 @@ export default function DocumentList({ searchQuery, activeFilter, onDocumentChan
         document={editingDocument}
         onUpdate={handleEditComplete}
       />
+
+      {/* Image Viewer */}
+      {viewingImage && (
+        <ImageViewer
+          isOpen={true}
+          onClose={() => setViewingImage(null)}
+          imageData={viewingImage.doc.imageData}
+          documentTitle={viewingImage.doc.title}
+        />
+      )}
     </section>
   );
 }
