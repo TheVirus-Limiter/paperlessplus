@@ -122,20 +122,12 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-md h-[80vh] overflow-y-auto bg-slate-800 border border-slate-700 text-white">
+        <DialogContent className="w-[95vw] sm:max-w-md h-[85vh] sm:h-auto max-h-[85vh] overflow-y-auto bg-slate-800 border border-slate-700 text-white p-6">
           <DialogHeader>
-            <DialogTitle className="flex items-center justify-between">
+            <DialogTitle className="text-white">
               Add Document
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleClose}
-                className="h-6 w-6 hover:bg-secondary/20"
-              >
-                <X className="h-4 w-4" />
-              </Button>
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-slate-300">
               Track a new document by adding its details below. This helps you organize and remember important paperwork.
             </DialogDescription>
           </DialogHeader>
