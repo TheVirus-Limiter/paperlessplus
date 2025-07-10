@@ -124,13 +124,23 @@ export default function DocumentTimeline({ onDocumentClick }: DocumentTimelinePr
   };
 
   const getCategoryIcon = (category: string) => {
-    const categoryData = CATEGORIES.find(cat => cat.id === category);
-    return categoryData?.icon || "📄";
+    const iconMap: Record<string, string> = {
+      'id': '🆔',
+      'legal': '⚖️', 
+      'medical': '🏥',
+      'financial': '💰'
+    };
+    return iconMap[category] || '📄';
   };
 
   const getCategoryColor = (category: string) => {
-    const categoryData = CATEGORIES.find(cat => cat.id === category);
-    return categoryData?.color || "bg-slate-600";
+    const colorMap: Record<string, string> = {
+      'id': 'bg-blue-600',
+      'legal': 'bg-green-600', 
+      'medical': 'bg-purple-600',
+      'financial': 'bg-orange-600'
+    };
+    return colorMap[category] || 'bg-slate-600';
   };
 
   const getUrgencyBadgeColor = (tags: string[]) => {
@@ -230,7 +240,12 @@ export default function DocumentTimeline({ onDocumentClick }: DocumentTimelinePr
             >
               All
             </Button>
-            {CATEGORIES.map((category) => (
+            {[
+              { id: 'id', name: 'ID', icon: '🆔', color: 'bg-blue-600' },
+              { id: 'legal', name: 'Legal', icon: '⚖️', color: 'bg-green-600' },
+              { id: 'medical', name: 'Medical', icon: '🏥', color: 'bg-purple-600' },
+              { id: 'financial', name: 'Financial', icon: '💰', color: 'bg-orange-600' }
+            ].map((category) => (
               <Button
                 key={category.id}
                 variant={selectedCategory === category.id ? 'default' : 'outline'}
@@ -238,7 +253,7 @@ export default function DocumentTimeline({ onDocumentClick }: DocumentTimelinePr
                 onClick={() => setSelectedCategory(category.id)}
                 className={`text-xs ${
                   selectedCategory === category.id 
-                    ? `${category.color.replace('bg-', 'bg-')} text-white` 
+                    ? `${category.color} text-white hover:${category.color}` 
                     : 'border-slate-400 text-white hover:bg-slate-700'
                 }`}
               >
