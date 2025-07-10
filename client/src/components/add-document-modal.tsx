@@ -122,7 +122,7 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="w-[95vw] sm:max-w-md h-[85vh] sm:h-auto max-h-[85vh] overflow-y-auto bg-slate-800 border border-slate-700 text-white p-6">
+        <DialogContent className="w-full sm:max-w-md h-full sm:h-auto overflow-y-auto bg-slate-800 border border-slate-700 text-white p-4 sm:p-6 rounded-lg sm:rounded-lg">
           <DialogHeader>
             <DialogTitle className="text-white">
               Add Document

@@ -97,6 +97,32 @@
   .text-gray-600 {
     @apply text-slate-400;
   }
+
+  /* Mobile viewport fixes */
+  @media (max-width: 640px) {
+    /* Prevent zooming on input focus */
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    textarea,
+    select {
+      font-size: 16px !important;
+    }
+    
+    /* Fix modal positioning on mobile */
+    [data-radix-dialog-content] {
+      position: fixed !important;
+      top: 5vh !important;
+      left: 2.5vw !important;
+      right: 2.5vw !important;
+      bottom: 5vh !important;
+      width: 95vw !important;
+      height: 90vh !important;
+      max-height: 90vh !important;
+      transform: none !important;
+      margin: 0 !important;
+    }
+  }
   
   .text-gray-900 {
     @apply text-white;
