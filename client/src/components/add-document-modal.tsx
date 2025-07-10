@@ -31,6 +31,7 @@ import CameraCapture from "./camera-capture";
 interface AddDocumentModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onDocumentAdded?: () => void;
 }
 
 const formSchema = z.object({
@@ -51,7 +52,7 @@ const categoryIcons = {
   financial: DollarSign,
 };
 
-export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalProps) {
+export default function AddDocumentModal({ isOpen, onClose, onDocumentAdded }: AddDocumentModalProps) {
   const [selectedUrgencyTags, setSelectedUrgencyTags] = useState<string[]>([]);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
@@ -83,6 +84,7 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
         title: "Document Added",
         description: "Your document has been successfully added.",
       });
+      if (onDocumentAdded) onDocumentAdded();
       handleClose();
     } catch (error) {
       toast({

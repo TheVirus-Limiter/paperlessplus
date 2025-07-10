@@ -8,31 +8,35 @@ interface DocumentStats {
   categories: number;
 }
 
-export default function StatsCards() {
+interface StatsCardsProps {
+  refreshTrigger?: number;
+}
+
+export default function StatsCards({ refreshTrigger }: StatsCardsProps) {
   const [stats, setStats] = useState<DocumentStats>({ totalDocs: 0, expiringDocs: 0, categories: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
+  const loadStats = async () => {
+    try {
+      const documents = await documentDB.getAllDocuments();
+      const expiringDocs = await documentDB.getExpiringDocuments(30);
+      const categories = new Set(documents.map(doc => doc.category));
+      
+      setStats({
+        totalDocs: documents.length,
+        expiringDocs: expiringDocs.length,
+        categories: categories.size
+      });
+    } catch (error) {
+      console.error('Error loading stats:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadStats = async () => {
-      try {
-        const documents = await documentDB.getAllDocuments();
-        const expiringDocs = await documentDB.getExpiringDocuments(30);
-        const categories = new Set(documents.map(doc => doc.category));
-        
-        setStats({
-          totalDocs: documents.length,
-          expiringDocs: expiringDocs.length,
-          categories: categories.size
-        });
-      } catch (error) {
-        console.error('Error loading stats:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
     loadStats();
-  }, []);
+  }, [refreshTrigger]);
 
   if (isLoading) {
     return (

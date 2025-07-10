@@ -8,16 +8,20 @@ import { format } from "date-fns";
 import { documentDB } from "@/lib/db";
 import { useToast } from "@/hooks/use-toast";
 import { CATEGORIES, URGENCY_TAGS } from "@shared/schema";
+import EditDocumentModal from "./edit-document-modal";
 
 interface DocumentListProps {
   searchQuery: string;
   activeFilter: string;
+  onDocumentChange?: () => void;
 }
 
-export default function DocumentList({ searchQuery, activeFilter }: DocumentListProps) {
+export default function DocumentList({ searchQuery, activeFilter, onDocumentChange }: DocumentListProps) {
   const [sortBy, setSortBy] = useState<"date" | "title">("date");
   const [documents, setDocuments] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingDocument, setEditingDocument] = useState<any>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -52,6 +56,8 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
     try {
       await documentDB.deleteDocument(id);
       setDocuments(docs => docs.filter(doc => doc.id !== id));
+      // Notify parent to refresh stats
+      if (onDocumentChange) onDocumentChange();
       toast({
         title: "Document Deleted",
         description: "The document has been successfully deleted.",
@@ -63,6 +69,40 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
         variant: "destructive",
       });
     }
+  };
+
+  const handleEditDocument = (document: any) => {
+    setEditingDocument(document);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditComplete = () => {
+    setIsEditModalOpen(false);
+    setEditingDocument(null);
+    // Reload documents and notify parent
+    const loadDocuments = async () => {
+      try {
+        let docs: any[] = [];
+        
+        if (searchQuery) {
+          docs = await documentDB.searchDocuments(searchQuery);
+        } else if (activeFilter === "expiring") {
+          docs = await documentDB.getExpiringDocuments(30);
+        } else if (activeFilter !== "all") {
+          const allDocs = await documentDB.getAllDocuments();
+          docs = allDocs.filter(doc => doc.category === activeFilter);
+        } else {
+          docs = await documentDB.getAllDocuments();
+        }
+        
+        setDocuments(docs);
+        if (onDocumentChange) onDocumentChange();
+      } catch (error) {
+        console.error('Error reloading documents:', error);
+      }
+    };
+    
+    loadDocuments();
   };
 
   // Sort documents
@@ -89,6 +129,17 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
       case "purple": return "border-l-purple-500";
       case "orange": return "border-l-orange-500";
       default: return "border-l-gray-500";
+    }
+  };
+
+  const getCategoryBadgeColor = (category: string) => {
+    const categoryInfo = getCategoryInfo(category);
+    switch (categoryInfo.color) {
+      case "blue": return "bg-blue-600 text-white";
+      case "green": return "bg-green-600 text-white";
+      case "purple": return "bg-purple-600 text-white";
+      case "orange": return "bg-orange-600 text-white";
+      default: return "bg-gray-600 text-white";
     }
   };
 
@@ -159,7 +210,7 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-medium text-white flex-1">{doc.title}</h3>
                     <div className="flex gap-1 ml-2">
-                      <Badge variant="secondary" className="text-xs">
+                      <Badge className={`text-xs ${getCategoryBadgeColor(doc.category)}`}>
                         {categoryInfo.label}
                       </Badge>
                       {doc.urgencyTags?.map((tag) => {
@@ -201,13 +252,7 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-slate-400 hover:text-purple-400"
-                        onClick={() => {
-                          // TODO: Implement edit functionality
-                          toast({
-                            title: "Edit Document",
-                            description: "Edit functionality coming soon!",
-                          });
-                        }}
+                        onClick={() => handleEditDocument(doc)}
                       >
                         <Edit className="h-3 w-3" />
                       </Button>
@@ -227,6 +272,14 @@ export default function DocumentList({ searchQuery, activeFilter }: DocumentList
           })}
         </div>
       )}
+
+      {/* Edit Document Modal */}
+      <EditDocumentModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        document={editingDocument}
+        onUpdate={handleEditComplete}
+      />
     </section>
   );
 }

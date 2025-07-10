@@ -11,6 +11,11 @@ export default function Home() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleDocumentChange = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   return (
     <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative text-white pb-20">
@@ -20,7 +25,7 @@ export default function Home() {
       />
       
       <main className="px-4 pb-24">
-        <StatsCards />
+        <StatsCards refreshTrigger={refreshTrigger} />
         <QuickFilters 
           activeFilter={activeFilter}
           onFilterChange={setActiveFilter}
@@ -28,6 +33,7 @@ export default function Home() {
         <DocumentList 
           searchQuery={searchQuery}
           activeFilter={activeFilter}
+          onDocumentChange={handleDocumentChange}
         />
       </main>
 
@@ -43,6 +49,7 @@ export default function Home() {
       <AddDocumentModal 
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
+        onDocumentAdded={handleDocumentChange}
       />
     </div>
   );
