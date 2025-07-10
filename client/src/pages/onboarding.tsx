@@ -293,7 +293,7 @@ export default function Onboarding() {
                     className="mt-1 h-4 w-4 text-purple-600 bg-slate-700 border-slate-600 rounded focus:ring-purple-500"
                   />
                   <span className="text-sm text-slate-300">
-                    I understand that PaperTrail prioritizes my privacy and keeps my data local and secure.
+                    I understand that Paperless+ prioritizes my privacy and keeps my data local and secure.
                   </span>
                 </label>
               </div>

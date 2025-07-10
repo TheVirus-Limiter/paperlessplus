@@ -125,7 +125,7 @@ export default function AuthPage() {
               <FileText className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-4xl font-bold">
-              Welcome to PaperTrail
+              Welcome to Paperless+
             </h1>
             <p className="text-xl text-slate-300">
               Your privacy-focused document tracker
@@ -184,8 +184,8 @@ export default function AuthPage() {
               </CardTitle>
               <p className="text-slate-400">
                 {isLogin 
-                  ? "Welcome back to PaperTrail" 
-                  : "Join PaperTrail to get started"
+                  ? "Welcome back to Paperless+" 
+                  : "Join Paperless+ to get started"
                 }
               </p>
             </CardHeader>

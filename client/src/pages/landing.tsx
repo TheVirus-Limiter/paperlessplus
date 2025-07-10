@@ -16,7 +16,7 @@ export default function Landing() {
             <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
               <FileText className="h-5 w-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gradient">PaperTrail</span>
+            <span className="text-xl font-bold text-gradient">Paperless+</span>
           </div>
           <Button onClick={handleLogin} className="gradient-primary hover:opacity-90 transition-opacity">
             Sign In

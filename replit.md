@@ -1,8 +1,8 @@
-# PaperTrail - Document Tracker
+# Paperless+ - Document Tracker
 
 ## Overview
 
-PaperTrail is a privacy-focused document management application that allows users to track and organize important documents without scanning or uploading them. The app is designed as a Progressive Web App (PWA) with a mobile-first approach, providing offline functionality and document reminder capabilities.
+Paperless+ is a privacy-focused document management application that allows users to track and organize important documents without scanning or uploading them. The app is designed as a Progressive Web App (PWA) with a mobile-first approach, providing offline functionality and document reminder capabilities.
 
 ## User Preferences
 
@@ -115,6 +115,12 @@ Preferred communication style: Simple, everyday language.
 - **Impact**: Users can now create accounts and securely log in to access personalized document storage
 - **Authentication Flow**: Professional auth page with login/register forms, session-based authentication
 - **Technical Details**: Uses pbkdf2 password hashing, PostgreSQL session storage, comprehensive API endpoints
+
+### ✓ App Rebranding to Paperless+
+- **Date**: July 10, 2025
+- **Changes**: Rebranded app from PaperTrail to Paperless+ across all files and components
+- **Impact**: Updated app name throughout interface, manifest, meta tags, and documentation
+- **Components Updated**: HTML title/meta tags, manifest.json, auth page, header, landing page, onboarding page
 
 ### ✓ Completed Authentication System (Previous)
 - **Date**: July 9, 2025

@@ -31,7 +31,7 @@ export default function Header({ searchQuery = "", onSearchChange, hideSearch = 
           <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
             <FileText className="h-5 w-5 text-white" />
           </div>
-          <h1 className="text-xl font-bold text-gradient">PaperTrail</h1>
+          <h1 className="text-xl font-bold text-gradient">Paperless+</h1>
         </div>
         
         {isAuthenticated && (

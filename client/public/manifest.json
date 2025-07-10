@@ -1,6 +1,6 @@
 {
-  "name": "PaperTrail - Document Tracker",
-  "short_name": "PaperTrail",
+  "name": "Paperless+ - Document Tracker",
+  "short_name": "Paperless+",
   "description": "Track and organize important documents without scanning or uploading. Privacy-focused document management.",
   "start_url": "/",
   "display": "standalone",
