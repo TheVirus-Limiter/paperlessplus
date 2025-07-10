@@ -40,8 +40,8 @@ Preferred communication style: Simple, everyday language.
 - **Urgency Tags**: System for flagging documents (expires-soon, need-for-taxes, renewal-due)
 
 ### Storage Strategy
-- **Production**: PostgreSQL via Neon Database (@neondatabase/serverless) with user-scoped data
-- **Authentication**: Replit Auth with PostgreSQL session storage
+- **Local Storage**: IndexedDB for client-side document storage with no server dependencies
+- **Privacy-First**: All data stays on the user's device, no authentication or cloud storage required
 - **Camera**: Client-side camera capture with base64 image storage for document photos
 
 ### UI Components
@@ -109,12 +109,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (July 2025)
 
-### ✓ Google Sign-In Integration with Onboarding Flow
+### ✓ Simplified Local-Only App with Onboarding
 - **Date**: July 10, 2025
-- **Changes**: Added Google OAuth authentication alongside email/password, restructured app to show onboarding slideshow before authentication
-- **Impact**: Users now see welcome slideshow introduction before choosing Google Sign-In or email authentication
-- **Authentication Flow**: Onboarding slideshow → authentication choice → secure login → app access
-- **Technical Details**: Passport.js Google OAuth strategy, conditional route handling, fallback for unconfigured credentials
+- **Changes**: Removed authentication system, converted to local-only storage with onboarding slideshow
+- **Impact**: App now works entirely offline with no server dependencies, pure privacy-focused approach
+- **User Flow**: Onboarding slideshow → direct access to document tracking → all data stored locally
+- **Technical Details**: IndexedDB storage, React state management, localStorage for onboarding tracking
 
 ### ✓ Working Email/Password Authentication System
 - **Date**: July 10, 2025
