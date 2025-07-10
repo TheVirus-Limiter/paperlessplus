@@ -4,6 +4,8 @@ import { pbkdf2Sync, randomBytes } from "crypto";
 import { storage } from "./storage";
 import connectPg from "connect-pg-simple";
 import { z } from "zod";
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 const PostgresSessionStore = connectPg(session);
 
@@ -57,6 +59,75 @@ export function setupAuth(app: Express) {
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     }
   }));
+
+  // Initialize Passport
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // Passport serialization
+  passport.serializeUser((user: any, done) => {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(async (id: string, done) => {
+    try {
+      const user = await storage.getUser(id);
+      done(null, user ? { 
+        id: user.id, 
+        email: user.email, 
+        firstName: user.firstName,
+        lastName: user.lastName,
+        authProvider: user.authProvider 
+      } : null);
+    } catch (error) {
+      done(error, null);
+    }
+  });
+
+  // Google OAuth Strategy
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use(new GoogleStrategy({
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/api/auth/google/callback"
+    }, async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails?.[0]?.value;
+        if (!email) {
+          return done(new Error('No email found in Google profile'), null);
+        }
+
+        // Check if user already exists
+        let user = await storage.getUserByEmail(email);
+        
+        if (user) {
+          // Update user's Google info if they logged in with Google
+          if (user.authProvider !== 'google') {
+            user = await storage.upsertUser({
+              ...user,
+              authProvider: 'google',
+              profileImageUrl: profile.photos?.[0]?.value || user.profileImageUrl
+            });
+          }
+        } else {
+          // Create new user
+          const userId = randomBytes(16).toString('hex');
+          user = await storage.createUser({
+            id: userId,
+            email,
+            firstName: profile.name?.givenName || null,
+            lastName: profile.name?.familyName || null,
+            profileImageUrl: profile.photos?.[0]?.value || null,
+            authProvider: 'google'
+          });
+        }
+
+        return done(null, user);
+      } catch (error) {
+        return done(error, null);
+      }
+    }));
+  }
 
   // Register endpoint
   app.post('/api/register', async (req: AuthRequest, res: Response) => {
@@ -137,6 +208,22 @@ export function setupAuth(app: Express) {
     });
   });
 
+  // Google OAuth routes
+  app.get('/api/auth/google', 
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+  );
+
+  app.get('/api/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/auth?error=google_auth_failed' }),
+    (req: AuthRequest, res: Response) => {
+      // Set session for passport user
+      if (req.user) {
+        req.session.userId = req.user.id;
+      }
+      res.redirect('/');
+    }
+  );
+
   // Get current user
   app.get('/api/auth/user', async (req: AuthRequest, res: Response) => {
     if (!req.session.userId) {
@@ -153,7 +240,9 @@ export function setupAuth(app: Express) {
         id: user.id, 
         email: user.email, 
         firstName: user.firstName,
-        lastName: user.lastName 
+        lastName: user.lastName,
+        profileImageUrl: user.profileImageUrl,
+        authProvider: user.authProvider
       });
     } catch (error) {
       console.error("Get user error:", error);
