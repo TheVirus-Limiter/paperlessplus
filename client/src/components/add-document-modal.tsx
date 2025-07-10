@@ -122,7 +122,7 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-md h-[80vh] overflow-y-auto glass-card border-0 modern-shadow-xl">
+        <DialogContent className="sm:max-w-md h-[80vh] overflow-y-auto bg-slate-800 border border-slate-700 text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center justify-between">
               Add Document
@@ -142,7 +142,7 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
 
           {/* Camera Preview */}
           {capturedImage && (
-            <div className="glass-card p-4 rounded-lg modern-shadow">
+            <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-medium flex items-center gap-2">
                   <Image className="h-4 w-4" />
@@ -291,7 +291,7 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
                   type="button"
                   variant="outline"
                   onClick={() => setIsCameraOpen(true)}
-                  className="w-full glass-card hover-lift focus-ring"
+                  className="w-full bg-slate-700 border-slate-600 text-white hover:bg-slate-600"
                 >
                   <Camera className="h-4 w-4 mr-2" />
                   {capturedImage ? "Retake Photo" : "Take Photo"}
@@ -302,14 +302,14 @@ export default function AddDocumentModal({ isOpen, onClose }: AddDocumentModalPr
                 <Button 
                   type="button" 
                   variant="outline" 
-                  className="flex-1 hover-lift focus-ring"
+                  className="flex-1 bg-slate-700 border-slate-600 text-white hover:bg-slate-600"
                   onClick={handleClose}
                 >
                   Cancel
                 </Button>
                 <Button 
                   type="submit" 
-                  className="flex-1 gradient-primary hover:opacity-90 transition-opacity focus-ring"
+                  className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Adding..." : "Add Document"}
