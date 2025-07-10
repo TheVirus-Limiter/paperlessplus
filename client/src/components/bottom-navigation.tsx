@@ -13,31 +13,8 @@ export default function BottomNavigation() {
   const [location, setLocation] = useLocation();
 
   return (
-    <div 
-      className="fixed bottom-0 left-0 right-0 z-50"
-      style={{ 
-        background: 'rgb(15, 23, 42)',
-        border: 'none',
-        outline: 'none',
-        boxShadow: 'none',
-        margin: 0,
-        padding: 0,
-        width: '100%',
-        maxWidth: '448px',
-        marginLeft: 'auto',
-        marginRight: 'auto'
-      }}
-    >
-      <div 
-        className="flex justify-around items-center py-2 px-4"
-        style={{ 
-          border: 'none', 
-          outline: 'none',
-          background: 'transparent',
-          margin: 0,
-          padding: '8px 16px'
-        }}
-      >
+    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-slate-900 border-t border-slate-700 px-4 py-2 z-50">
+      <div className="flex justify-around items-center">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location === item.path;
@@ -46,12 +23,11 @@ export default function BottomNavigation() {
             <Button
               key={item.id}
               variant="ghost"
-              className={`flex flex-col items-center py-1 px-3 h-auto hover:bg-slate-800/50 focus:bg-slate-800/50 focus:outline-none focus:ring-0 transition-colors duration-200 ${
+              className={`flex flex-col items-center py-1 px-3 h-auto hover:bg-slate-800/50 focus:bg-slate-800/50 focus:outline-none focus:ring-0 ${
                 isActive 
                   ? "text-purple-400 bg-slate-800/50" 
                   : "text-slate-400 hover:text-purple-400"
               }`}
-              style={{ color: isActive ? '#c084fc' : '#94a3b8' }}
               onClick={() => setLocation(item.path)}
             >
               <Icon className="h-5 w-5 mb-1" />
@@ -60,6 +36,6 @@ export default function BottomNavigation() {
           );
         })}
       </div>
-    </div>
+    </nav>
   );
 }

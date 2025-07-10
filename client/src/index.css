@@ -266,7 +266,7 @@
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  /* Navigation animations and fixes */
+  /* Navigation animations */
   nav button {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     transform: scale(1);
@@ -280,42 +280,9 @@
     transform: scale(0.98);
   }
   
-  /* Fix navbar positioning and colors */
-  nav {
-    z-index: 50;
-    position: fixed !important;
-    bottom: 0 !important;
-    background: rgb(15 23 42) !important; /* solid slate-900 */
-  }
-  
-  /* Complete bottom navigation styling reset */
-  .fixed.bottom-0 {
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
-  
-  .fixed.bottom-0::after,
-  .fixed.bottom-0::before,
-  .fixed.bottom-0 *::after,
-  .fixed.bottom-0 *::before {
-    display: none !important;
-    content: none !important;
-  }
-  
-  /* Remove any inherited borders from all bottom navigation elements */
-  .fixed.bottom-0,
-  .fixed.bottom-0 *,
-  .fixed.bottom-0 button,
-  .fixed.bottom-0 div {
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-  }
-  
-  /* Ensure navbar stays visible over content */
+  /* Remove problematic body padding */
   body {
-    padding-bottom: 80px;
+    padding-bottom: 0;
   }
   
   /* Icon animations */

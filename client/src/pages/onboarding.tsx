@@ -137,7 +137,7 @@ export default function Onboarding() {
   const progress = ((currentStep + 1) / steps.length) * 100;
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-4" style={{ backgroundColor: 'rgb(15, 23, 42)' }}>
       <div className="max-w-md w-full">
         {/* Progress Bar */}
         <div className="mb-8">
