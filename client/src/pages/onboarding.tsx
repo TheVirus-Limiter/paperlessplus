@@ -104,19 +104,17 @@ export default function Onboarding() {
   };
 
   const handleAuthChoice = (method: string) => {
-    // Redirect to appropriate auth endpoint
+    // Redirect to auth page
     switch (method) {
       case 'email':
-        window.location.href = '/api/login?method=email';
+      case 'google':
+        window.location.href = '/';
         break;
       case 'phone':
         toast({
           title: "Coming Soon",
           description: "Phone authentication will be available soon.",
         });
-        break;
-      case 'google':
-        window.location.href = '/api/login';
         break;
     }
   };

@@ -2,29 +2,17 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertDocumentSchema } from "@shared/schema";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupAuth, isAuthenticated } from "./auth";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
-  await setupAuth(app);
-
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
+  setupAuth(app);
 
   // Get all documents
   app.get("/api/documents", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const documents = await storage.getAllDocuments(userId);
       res.json(documents);
     } catch (error) {
@@ -35,7 +23,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Search documents
   app.get("/api/documents/search", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const query = req.query.q as string;
       if (!query) {
         return res.status(400).json({ message: "Search query is required" });
@@ -50,7 +38,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get documents by category
   app.get("/api/documents/category/:category", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const { category } = req.params;
       const documents = await storage.getDocumentsByCategory(category, userId);
       res.json(documents);
@@ -62,7 +50,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get expiring documents
   app.get("/api/documents/expiring", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const days = req.query.days ? parseInt(req.query.days as string) : 90;
       const documents = await storage.getExpiringDocuments(days, userId);
       res.json(documents);
@@ -74,7 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get document stats
   app.get("/api/documents/stats", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const stats = await storage.getDocumentStats(userId);
       res.json(stats);
     } catch (error) {
@@ -85,7 +73,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get single document
   app.get("/api/documents/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const id = req.params.id;
       const document = await storage.getDocument(id, userId);
       if (!document) {
@@ -100,7 +88,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create document
   app.post("/api/documents", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const validatedData = insertDocumentSchema.parse(req.body);
       const document = await storage.createDocument(validatedData, userId);
       res.status(201).json(document);
@@ -118,7 +106,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Update document
   app.patch("/api/documents/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const id = req.params.id;
       const updates = insertDocumentSchema.partial().parse(req.body);
       const document = await storage.updateDocument(id, updates, userId);
@@ -140,7 +128,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Delete document
   app.delete("/api/documents/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const id = req.params.id;
       const deleted = await storage.deleteDocument(id, userId);
       if (!deleted) {
@@ -155,7 +143,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Sync and device management routes
   app.post("/api/devices/register", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const { deviceName, deviceType, userAgent } = req.body;
       
       const device = await storage.registerDevice({
@@ -174,7 +162,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/devices", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const devices = await storage.getUserDevices(userId);
       res.json(devices);
     } catch (error) {
@@ -185,7 +173,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.put("/api/devices/:deviceId/heartbeat", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const { deviceId } = req.params;
       
       await storage.updateDeviceLastSeen(deviceId, userId);
@@ -198,7 +186,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete("/api/devices/:deviceId", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const { deviceId } = req.params;
       
       const success = await storage.deactivateDevice(deviceId, userId);
@@ -212,7 +200,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Sync operations
   app.get("/api/sync/documents", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const lastSyncParam = req.query.lastSync as string;
       const lastSyncAt = lastSyncParam ? new Date(lastSyncParam) : undefined;
       
@@ -226,7 +214,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/sync/complete", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const { documentIds, deviceId, action } = req.body;
       
       if (documentIds && documentIds.length > 0) {
@@ -253,7 +241,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/sync/history", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
       
       const history = await storage.getSyncHistory(userId, limit);
@@ -266,7 +254,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/sync/conflicts", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const conflicts = await storage.handleSyncConflicts(userId);
       res.json(conflicts);
     } catch (error) {

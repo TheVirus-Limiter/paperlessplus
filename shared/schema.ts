@@ -16,11 +16,12 @@ export const sessions = pgTable(
 // User storage table for authentication
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().notNull(),
-  email: varchar("email").unique(),
+  email: varchar("email").unique().notNull(),
+  password: varchar("password"), // for email auth
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
-  authProvider: varchar("auth_provider").default("replit"), // replit, google, email
+  authProvider: varchar("auth_provider").default("email"), // replit, google, email
   syncEnabled: text("sync_enabled").default("true"), // enable cloud sync
   lastSyncAt: timestamp("last_sync_at"),
   encryptionKey: varchar("encryption_key"), // for client-side encryption
