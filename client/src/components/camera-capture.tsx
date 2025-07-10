@@ -1,6 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Camera, X, RotateCcw, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -114,100 +112,113 @@ export default function CameraCapture({ isOpen, onClose, onCapture }: CameraCapt
   }, [isOpen, startCamera, stopCamera]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md mx-auto glass-card border-0 modern-shadow-xl">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Camera className="h-5 w-5" />
-            Document Camera
-          </DialogTitle>
-          <DialogDescription>
-            Take a photo of your document for reference. The image will be stored locally on your device.
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-4">
-          {/* Camera View */}
-          <div className="relative aspect-[4/3] bg-black rounded-lg overflow-hidden">
-            {!capturedImage ? (
-              <>
-                <video
-                  ref={videoRef}
-                  className="w-full h-full object-cover"
-                  playsInline
-                  muted
-                />
-                {!isCameraReady && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                    <div className="text-center text-white">
-                      <Camera className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                      <p className="text-sm">Starting camera...</p>
-                    </div>
-                  </div>
-                )}
-                {isCameraReady && (
-                  <div className="camera-overlay absolute inset-0 pointer-events-none" />
-                )}
-              </>
-            ) : (
-              <img
-                src={capturedImage}
-                alt="Captured document"
-                className="w-full h-full object-cover"
-              />
-            )}
-          </div>
-
-          {/* Hidden canvas for capture */}
-          <canvas ref={canvasRef} className="hidden" />
-
-          {/* Controls */}
-          <div className="flex justify-center gap-4">
-            {!isCapturing ? (
-              <>
-                <Button
+    <>
+      {/* Custom Camera Modal */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={handleClose}
+        >
+          <div 
+            className="bg-slate-800 border border-slate-700 text-white rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Camera className="h-5 w-5" />
+                  <h2 className="text-lg font-semibold text-white">Document Camera</h2>
+                </div>
+                <button
                   onClick={handleClose}
-                  variant="outline"
-                  size="lg"
-                  className="flex-1"
+                  className="text-slate-400 hover:text-white p-1 rounded"
                 >
-                  <X className="h-4 w-4 mr-2" />
-                  Cancel
-                </Button>
-                <Button
-                  onClick={capturePhoto}
-                  disabled={!isCameraReady}
-                  size="lg"
-                  className="flex-1 gradient-primary hover:opacity-90"
-                >
-                  <Camera className="h-4 w-4 mr-2" />
-                  Capture
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  onClick={handleRetake}
-                  variant="outline"
-                  size="lg"
-                  className="flex-1"
-                >
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Retake
-                </Button>
-                <Button
-                  onClick={handleSavePhoto}
-                  size="lg"
-                  className="flex-1 gradient-primary hover:opacity-90"
-                >
-                  <Check className="h-4 w-4 mr-2" />
-                  Save
-                </Button>
-              </>
-            )}
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <p className="text-slate-300 text-sm mb-6">
+                Take a photo of your document for reference. The image will be stored locally on your device.
+              </p>
+
+              <div className="space-y-4">
+                {/* Camera View */}
+                <div className="relative aspect-[4/3] bg-black rounded-lg overflow-hidden">
+                  {!capturedImage ? (
+                    <>
+                      <video
+                        ref={videoRef}
+                        className="w-full h-full object-cover"
+                        playsInline
+                        muted
+                      />
+                      {!isCameraReady && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                          <div className="text-center text-white">
+                            <Camera className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                            <p className="text-sm">Starting camera...</p>
+                          </div>
+                        </div>
+                      )}
+                      {isCameraReady && (
+                        <div className="camera-overlay absolute inset-0 pointer-events-none" />
+                      )}
+                    </>
+                  ) : (
+                    <img
+                      src={capturedImage}
+                      alt="Captured document"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+
+                {/* Hidden canvas for capture */}
+                <canvas ref={canvasRef} className="hidden" />
+
+                {/* Controls */}
+                <div className="flex justify-center gap-4">
+                {!isCapturing ? (
+                  <>
+                    <button
+                      onClick={handleClose}
+                      className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 text-white rounded-md hover:bg-slate-600 flex items-center justify-center gap-2"
+                    >
+                      <X className="h-4 w-4" />
+                      Cancel
+                    </button>
+                    <button
+                      onClick={capturePhoto}
+                      disabled={!isCameraReady}
+                      className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md disabled:opacity-50 flex items-center justify-center gap-2"
+                    >
+                      <Camera className="h-4 w-4" />
+                      Capture
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={handleRetake}
+                      className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 text-white rounded-md hover:bg-slate-600 flex items-center justify-center gap-2"
+                    >
+                      <RotateCcw className="h-4 w-4" />
+                      Retake
+                    </button>
+                    <button
+                      onClick={handleSavePhoto}
+                      className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md flex items-center justify-center gap-2"
+                    >
+                      <Check className="h-4 w-4" />
+                      Save
+                    </button>
+                  </>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      )}
+    </>
   );
 }
