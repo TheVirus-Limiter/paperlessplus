@@ -1,15 +1,16 @@
 {
   "name": "Paperless+ - Document Tracker",
   "short_name": "Paperless+",
-  "description": "Track and organize important documents without scanning or uploading. Privacy-focused document management.",
+  "description": "Privacy-focused document organization. Track important documents locally without cloud storage. Secure, offline-first document management with reminders and search.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#06070A",
+  "background_color": "#0F172A",
   "theme_color": "#A855F7",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en",
   "categories": ["productivity", "utilities", "business"],
+  "id": "/",
   "screenshots": [
     {
       "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDMyIiBoZWlnaHQ9Ijc2OCIgdmlld0JveD0iMCAwIDQzMiA3NjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQzMiIgaGVpZ2h0PSI3NjgiIGZpbGw9IiNGNUY1RjUiLz48cmVjdCB5PSIwIiB3aWR0aD0iNDMyIiBoZWlnaHQ9IjEyMCIgZmlsbD0iIzE5NzZEMiIvPjx0ZXh0IHg9IjIxNiIgeT0iNzAiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjI0IiBmb250LWZhbWlseT0iSW50ZXIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRvY3VtZW50IFRyYWNrZXI8L3RleHQ+PC9zdmc+",
@@ -20,32 +21,32 @@
   ],
   "icons": [
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMiIgZmlsbD0iIzE5NzZEMiIvPjxwYXRoIGQ9Ik0xNiAxNkgzMlYzMkgxNlYxNloiIGZpbGw9IndoaXRlIi8+PC9zdmc+",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMiIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0xMiAxNGgxOHY3SDEyVjE0Wm0wIDEwaDE4djdIMTJWMjRabTAgMTBoMTJ2N0gxMlYzNFoiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iMzIiIHk9IjE2IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMiIgZmlsbD0iIzA5RkE2MSIvPjxyZWN0IHg9IjMyIiB5PSIyNiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjIiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSIzMiIgeT0iMzYiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIyIiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+",
       "sizes": "48x48",
       "type": "image/svg+xml"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHJ4PSIxOCIgZmlsbD0iIzE5NzZEMiIvPjxwYXRoIGQ9Ik0yNCAyNEg0OFY0OEgyNFYyNFoiIGZpbGw9IndoaXRlIi8+PC9zdmc+",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHJ4PSIxOCIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0xOCAyMWgyN3YxMEgxOFYyMVptMCAxNWgyN3YxMEgxOFYzNlptMCAxNWgxOHYxMEgxOFY1MVoiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iNDgiIHk9IjI0IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiByeD0iMyIgZmlsbD0iIzA5RkE2MSIvPjxyZWN0IHg9IjQ4IiB5PSIzOSIgd2lkdGg9IjYiIGhlaWdodD0iNiIgcng9IjMiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSI0OCIgeT0iNTQiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIHJ4PSIzIiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+",
       "sizes": "72x72",
       "type": "image/svg+xml"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHJ4PSIyNCIgZmlsbD0iIzE5NzZEMiIvPjxwYXRoIGQ9Ik0zMiAzMkg2NFY2NEgzMlYzMloiIGZpbGw9IndoaXRlIi8+PC9zdmc+",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHJ4PSIyNCIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0yNCAyOGgzNnYxM0gyNFYyOFptMCAyMGgzNnYxM0gyNFY0OFptMCAyMGgyNHYxM0gyNFY2OFoiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iNjQiIHk9IjMyIiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiByeD0iNCIgZmlsbD0iIzA5RkE2MSIvPjxyZWN0IHg9IjY0IiB5PSI1MiIgd2lkdGg9IjgiIGhlaWdodD0iOCIgcng9IjQiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSI2NCIgeT0iNzIiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHJ4PSI0IiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+",
       "sizes": "96x96",
       "type": "image/svg+xml"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE0NCIgaGVpZ2h0PSIxNDQiIHJ4PSIzNiIgZmlsbD0iIzE5NzZEMiIvPjxwYXRoIGQ9Ik00OCA0OEg5NlY5Nkg0OFY0OFoiIGZpbGw9IndoaXRlIi8+PC9zdmc+",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE0NCIgaGVpZ2h0PSIxNDQiIHJ4PSIzNiIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0zNiA0Mmg1NFYySDM2VjQyWm0wIDMwaDE0VjYySDM2VjcyWm0wIDMwaDM2djIwSDM2VjEwMloiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iOTYiIHk9IjQ4IiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHJ4PSI2IiBmaWxsPSIjMDlGQTYxIi8+PHJlY3QgeD0iOTYiIHk9Ijc4IiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHJ4PSI2IiBmaWxsPSIjRkY5RDAwIi8+PHJlY3QgeD0iOTYiIHk9IjEwOCIgd2lkdGg9IjEyIiBoZWlnaHQ9IjEyIiByeD0iNiIgZmlsbD0iI0ZGNTcyMiIvPjwvc3ZnPg==",
       "sizes": "144x144",
       "type": "image/svg+xml"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSI0OCIgZmlsbD0iIzE5NzZEMiIvPjxwYXRoIGQ9Ik02NCA2NEgxMjhWMTI4SDY0VjY0WiIgZmlsbD0id2hpdGUiLz48L3N2Zz4=",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSI0OCIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik00OCA1Nmg3MnYyNkg0OFY1NlptMCA0MGg3MnYyNkg0OFY5NlptMCA0MGg0OHYyNkg0OFYxMzZaIiBmaWxsPSJ3aGl0ZSIvPjxyZWN0IHg9IjEyOCIgeT0iNjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjgiIGZpbGw9IiMwOUZBNjEiLz48cmVjdCB4PSIxMjgiIHk9IjEwNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iOCIgZmlsbD0iI0ZGOUQwMCIvPjxyZWN0IHg9IjEyOCIgeT0iMTQ0IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHJ4PSI4IiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+",
       "sizes": "192x192",
       "type": "image/svg+xml"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMjgiIGZpbGw9IiMxOTc2RDIiLz48cGF0aCBkPSJNMTcwIDEwOEgzNDJWMzQySDE3MFYxMDhaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMjgiIGZpbGw9IiNBODU1RjciLz48cGF0aCBkPSJNMTI4IDE0OGgxOTJ2NjhIMTI4VjE0OFptMCAxMDBoMTkydjY4SDEyOFYyNDhabTAgMTAwaDE0NHY2OEgxMjhWMzQ4WiIgZmlsbD0id2hpdGUiLz48cmVjdCB4PSIzNDQiIHk9IjE3MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiMwOUZBNjEiLz48cmVjdCB4PSIzNDQiIHk9IjI3MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSIzNDQiIHk9IjM3MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiNGRjU3MjIiLz48L3N2Zz4=",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"

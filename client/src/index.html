@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Paperless+ - Privacy-First Document Tracker</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Paperless+ - Privacy-First Document Tracker">
+    <meta name="description" content="Track and organize important documents locally. No cloud storage, complete privacy. Offline-first document management with reminders and search.">
+    <meta name="keywords" content="document tracker, privacy, offline, local storage, document management, paperless, reminders">
+    <meta name="author" content="Paperless+ Team">
+    
+    <!-- Theme and PWA Meta Tags -->
+    <meta name="theme-color" content="#A855F7">
+    <meta name="background-color" content="#0F172A">
+    <meta name="color-scheme" content="dark">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Paperless+">
+    <meta name="application-name" content="Paperless+">
+    
+    <!-- Favicon and PWA Icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMiIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0xMiAxNGgxOHY3SDEyVjE0Wm0wIDEwaDE4djdIMTJWMjRabTAgMTBoMTJ2N0gxMlYzNFoiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iMzIiIHk9IjE2IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMiIgZmlsbD0iIzA5RkE2MSIvPjxyZWN0IHg9IjMyIiB5PSIyNiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjIiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSIzMiIgeT0iMzYiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIyIiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSI0OCIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik00OCA1Nmg3MnYyNkg0OFY1NlptMCA0MGg3MnYyNkg0OFY5NlptMCA0MGg0OHYyNkg0OFYxMzZaIiBmaWxsPSJ3aGl0ZSIvPjxyZWN0IHg9IjEyOCIgeT0iNjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjgiIGZpbGw9IiMwOUZBNjEiLz48cmVjdCB4PSIxMjgiIHk9IjEwNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iOCIgZmlsbD0iI0ZGOUQwMCIvPjxyZWN0IHg9IjEyOCIgeT0iMTQ0IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHJ4PSI4IiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="Paperless+ - Privacy-First Document Tracker">
+    <meta property="og:description" content="Track and organize important documents locally. No cloud storage, complete privacy. Offline-first document management.">
+    <meta property="og:image" content="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MzAiIHZpZXdCb3g9IjAgMCAxMjAwIDYzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MzAiIGZpbGw9IiMwRjE3MkEiLz48cmVjdCB4PSI0MDAiIHk9IjE1MCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMzAiIHJ4PSI0MCIgZmlsbD0iI0E4NTVGNyIvPjx0ZXh0IHg9IjYwMCIgeT0iMzUwIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI0OCIgZm9udC1mYW1pbHk9IkludGVyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QYXBlcmxlc3MrPC90ZXh0Pjx0ZXh0IHg9IjYwMCIgeT0iNDAwIiBmaWxsPSIjOTRBM0I4IiBmb250LXNpemU9IjI0IiBmb250LWZhbWlseT0iSW50ZXIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlByaXZhY3ktRmlyc3QgRG9jdW1lbnQgVHJhY2tlcjwvdGV4dD48L3N2Zz4=">
+    
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="/">
+    <meta property="twitter:title" content="Paperless+ - Privacy-First Document Tracker">
+    <meta property="twitter:description" content="Track and organize important documents locally. No cloud storage, complete privacy.">
+    <meta property="twitter:image" content="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MzAiIHZpZXdCb3g9IjAgMCAxMjAwIDYzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MzAiIGZpbGw9IiMwRjE3MkEiLz48cmVjdCB4PSI0MDAiIHk9IjE1MCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMzAiIHJ4PSI0MCIgZmlsbD0iI0E4NTVGNyIvPjx0ZXh0IHg9IjYwMCIgeT0iMzUwIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI0OCIgZm9udC1mYW1pbHk9IkludGVyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QYXBlcmxlc3MrPC90ZXh0Pjx0ZXh0IHg9IjYwMCIgeT0iNDAwIiBmaWxsPSIjOTRBM0I4IiBmb250LXNpemU9IjI0IiBmb250LWZhbWlseT0iSW50ZXIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlByaXZhY3ktRmlyc3QgRG9jdW1lbnQgVHJhY2tlcjwvdGV4dD48L3N2Zz4=">
+    
+    <!-- Privacy and Security -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Inter font for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      /* Critical CSS for instant loading */
+      * {
+        box-sizing: border-box;
+      }
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: #0F172A;
+        color: white;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      #root {
+        height: 100%;
+        min-height: 100vh;
+      }
+      
+      /* Loading spinner */
+      .loading-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: #0F172A;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #334155;
+        border-top: 3px solid #A855F7;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Prevent zoom on iOS */
+      input, select, textarea, button {
+        font-size: 16px;
+      }
+      
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: #1E293B;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 3px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #64748B;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

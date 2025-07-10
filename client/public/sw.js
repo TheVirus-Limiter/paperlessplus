@@ -1,6 +1,6 @@
 // Service Worker for PWA functionality
-const CACHE_NAME = 'papertrail-v1';
-const OFFLINE_URL = '/offline.html';
+const CACHE_NAME = 'paperless-plus-v1';
+const OFFLINE_URL = '/';
 
 // Files to cache for offline functionality
 const STATIC_CACHE_URLS = [
