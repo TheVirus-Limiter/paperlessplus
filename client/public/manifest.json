@@ -11,6 +11,15 @@
   "lang": "en",
   "categories": ["productivity", "utilities", "business"],
   "id": "/",
+  "shortcuts": [
+    {
+      "name": "Add Document",
+      "short_name": "Add",
+      "description": "Add a new document",
+      "url": "/?action=add",
+      "icons": [{"src": "./favicon.png", "sizes": "96x96"}]
+    }
+  ],
   "screenshots": [
     {
       "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDMyIiBoZWlnaHQ9Ijc2OCIgdmlld0JveD0iMCAwIDQzMiA3NjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQzMiIgaGVpZ2h0PSI3NjgiIGZpbGw9IiNGNUY1RjUiLz48cmVjdCB5PSIwIiB3aWR0aD0iNDMyIiBoZWlnaHQ9IjEyMCIgZmlsbD0iIzE5NzZEMiIvPjx0ZXh0IHg9IjIxNiIgeT0iNzAiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjI0IiBmb250LWZhbWlseT0iSW50ZXIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRvY3VtZW50IFRyYWNrZXI8L3RleHQ+PC9zdmc+",
