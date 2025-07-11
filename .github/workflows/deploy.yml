@@ -23,20 +23,13 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Build app with correct base
+    - name: Build frontend for GitHub Pages
       run: |
         export NODE_ENV=production
-        npm run build
+        npx vite build --base=/paperlessplus/
 
-    - name: Fix paths for GitHub Pages
-      run: |
-        # Update index.html to use relative paths
-        sed -i 's|="/assets/|="./assets/|g' dist/public/index.html
-        sed -i 's|="/manifest.json|="./manifest.json|g' dist/public/index.html
-        
-        # Update service worker path in built files
-        find dist/public -name "*.js" -exec sed -i 's|"/sw.js"|"./sw.js"|g' {} \;
-        
+    - name: Prepare GitHub Pages deployment
+      run: |        
         # List final structure
         echo "Final build structure:"
         ls -la dist/public/
