@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Settings, LogOut, FileText } from "lucide-react";
-import logoImage from "@assets/image (1)_1752264786863.png";
+// Logo will be loaded from public folder
 import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -31,7 +31,7 @@ export default function Header({ searchQuery = "", onSearchChange, hideSearch = 
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg overflow-hidden">
             <img 
-              src={logoImage} 
+              src="./logo.png" 
               alt="Paperless+ Logo" 
               className="w-full h-full object-cover"
             />

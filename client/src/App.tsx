@@ -13,7 +13,7 @@ import Settings from "@/pages/settings";
 import { documentDB } from "@/lib/db";
 import { initializeNotificationChecks } from "@/lib/notifications";
 import BottomNavigation from "@/components/bottom-navigation";
-import logoImage from "@assets/image (1)_1752264786863.png";
+// Logo will be loaded from public folder
 
 function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -63,7 +63,7 @@ function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
         <div className="mb-8">
           <div className="mb-6">
             <img 
-              src={logoImage} 
+              src="./logo.png" 
               alt="Paperless+ Logo" 
               className="w-24 h-24 mx-auto rounded-2xl shadow-lg"
             />
