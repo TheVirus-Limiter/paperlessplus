@@ -11,4 +11,12 @@
         l.pathname.slice(0, -1) + decoded + l.hash
     );
   }
+  
+  // Redirect any non-existent paths to home
+  var validPaths = ['/', '/search', '/timeline', '/reminders', '/settings'];
+  var currentPath = l.pathname.replace(/\/paperlessplus$|\/paperlessplus\/$/, '/');
+  
+  if (!validPaths.includes(currentPath) && currentPath !== '/') {
+    window.history.replaceState(null, null, l.origin + '/paperlessplus/');
+  }
 }(window.location))

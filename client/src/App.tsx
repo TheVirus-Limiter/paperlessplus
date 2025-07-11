@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -13,6 +13,7 @@ import Settings from "@/pages/settings";
 import { documentDB } from "@/lib/db";
 import { initializeNotificationChecks } from "@/lib/notifications";
 import BottomNavigation from "@/components/bottom-navigation";
+import logoImage from "@assets/image (1)_1752264786863.png";
 
 function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -60,7 +61,13 @@ function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6">
       <div className="max-w-md mx-auto text-center">
         <div className="mb-8">
-          <div className="text-6xl mb-4">{slides[currentSlide].icon}</div>
+          <div className="mb-6">
+            <img 
+              src={logoImage} 
+              alt="Paperless+ Logo" 
+              className="w-24 h-24 mx-auto rounded-2xl shadow-lg"
+            />
+          </div>
           <h1 className="text-3xl font-bold mb-2 text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">
             {slides[currentSlide].title}
           </h1>
@@ -106,12 +113,21 @@ function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
 }
 
 function Router() {
+  const [location] = useLocation();
+  
   // Initialize local database and notifications
   useEffect(() => {
     documentDB.initialize();
     // Initialize notification checks for expiring documents
     initializeNotificationChecks();
   }, []);
+
+  // Redirect any unknown paths to home
+  useEffect(() => {
+    if (location !== "/" && location !== "/search" && location !== "/timeline" && location !== "/reminders" && location !== "/settings") {
+      window.history.replaceState({}, '', '/');
+    }
+  }, [location]);
 
   return (
     <>
@@ -121,7 +137,9 @@ function Router() {
         <Route path="/timeline" component={Timeline} />
         <Route path="/reminders" component={Reminders} />
         <Route path="/settings" component={Settings} />
-        <Route component={NotFound} />
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
       </Switch>
       <BottomNavigation />
     </>
