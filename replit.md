@@ -199,3 +199,11 @@ Preferred communication style: Simple, everyday language.
 - **Impact**: Users can now properly reset onboarding flow without encountering GitHub Pages routing errors
 - **Features**: Proper redirect to home page, onboarding slideshow triggers correctly
 - **Technical Details**: Changed from `window.location.reload()` to `window.location.href = '/'`, added storage event listener
+
+### ✓ Complete GitHub Pages Subdirectory Routing
+- **Date**: July 11, 2025
+- **Changes**: Configured all routing to work with `/paperlessplus/` subdirectory for GitHub Pages deployment
+- **Impact**: App now properly works under https://thevirus-limiter.github.io/paperlessplus/ with all routing functional
+- **Features**: Custom router without Wouter, proper base path handling, GitHub Pages SPA routing
+- **Technical Details**: Custom Router component, updated manifest.json, 404.html, index.html with base tag, service worker paths
+- **Removed**: Reset onboarding button and notifications functionality to reduce complexity

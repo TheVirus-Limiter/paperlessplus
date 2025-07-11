@@ -112,35 +112,71 @@ function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
   );
 }
 
+// Custom routing for GitHub Pages subdirectory
 function Router() {
-  const [location] = useLocation();
+  const basePath = "/paperlessplus";
+  const [currentPath, setCurrentPath] = useState(() => {
+    const fullPath = window.location.pathname;
+    if (fullPath.startsWith(basePath)) {
+      const relativePath = fullPath.substring(basePath.length);
+      return relativePath || "/";
+    }
+    return "/";
+  });
   
   // Initialize local database and notifications
   useEffect(() => {
     documentDB.initialize();
-    // Initialize notification checks for expiring documents
     initializeNotificationChecks();
   }, []);
 
-  // Redirect any unknown paths to home
+  // Handle browser navigation
   useEffect(() => {
-    if (location !== "/" && location !== "/search" && location !== "/timeline" && location !== "/reminders" && location !== "/settings") {
-      window.history.replaceState({}, '', '/');
+    const handlePopState = () => {
+      const fullPath = window.location.pathname;
+      if (fullPath.startsWith(basePath)) {
+        const relativePath = fullPath.substring(basePath.length);
+        setCurrentPath(relativePath || "/");
+      } else {
+        // Redirect to base path if not under paperlessplus
+        window.history.replaceState({}, '', basePath);
+        setCurrentPath("/");
+      }
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [basePath]);
+
+  // Ensure we're on the right base path
+  useEffect(() => {
+    const fullPath = window.location.pathname;
+    if (!fullPath.startsWith(basePath)) {
+      window.history.replaceState({}, '', basePath);
+      setCurrentPath("/");
     }
-  }, [location]);
+  }, [basePath]);
+
+  const renderPage = () => {
+    switch (currentPath) {
+      case "/":
+        return <Home />;
+      case "/search":
+        return <Search />;
+      case "/timeline":
+        return <Timeline />;
+      case "/reminders":
+        return <Reminders />;
+      case "/settings":
+        return <Settings />;
+      default:
+        return <Home />;
+    }
+  };
 
   return (
     <>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/search" component={Search} />
-        <Route path="/timeline" component={Timeline} />
-        <Route path="/reminders" component={Reminders} />
-        <Route path="/settings" component={Settings} />
-        <Route path="*">
-          <Redirect to="/" />
-        </Route>
-      </Switch>
+      {renderPage()}
       <BottomNavigation />
     </>
   );

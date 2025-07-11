@@ -1,13 +1,14 @@
 // Service Worker for PWA functionality
 const CACHE_NAME = 'paperless-plus-v1';
-const OFFLINE_URL = '/';
+const BASE_PATH = '/paperlessplus';
+const OFFLINE_URL = `${BASE_PATH}/`;
 
 // Files to cache for offline functionality
 const STATIC_CACHE_URLS = [
-  '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json',
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/static/js/bundle.js`,
+  `${BASE_PATH}/static/css/main.css`,
+  `${BASE_PATH}/manifest.json`,
   OFFLINE_URL
 ];
 

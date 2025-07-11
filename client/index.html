@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <base href="/paperlessplus/" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>Paperless+ - Document Tracker</title>
@@ -17,13 +18,13 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://papertrail.app/" />
+    <meta property="og:url" content="https://thevirus-limiter.github.io/paperlessplus/" />
     <meta property="og:title" content="Paperless+ - Document Tracker" />
     <meta property="og:description" content="Track and organize important documents without scanning or uploading. Privacy-focused document management." />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://papertrail.app/" />
+    <meta property="twitter:url" content="https://thevirus-limiter.github.io/paperlessplus/" />
     <meta property="twitter:title" content="Paperless+ - Document Tracker" />
     <meta property="twitter:description" content="Track and organize important documents without scanning or uploading. Privacy-focused document management." />
     
@@ -46,6 +47,10 @@
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- GitHub Pages SPA redirect script -->
+    <script src="/paperlessplus/spa-github-pages.js"></script>
+    
     <script type="module" src="/src/main.tsx"></script>
     
     <!-- PWA Service Worker Registration -->
@@ -53,7 +58,7 @@
       // Register service worker for PWA functionality
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          navigator.serviceWorker.register('/paperlessplus/sw.js')
             .then((registration) => {
               console.log('ServiceWorker registered: ', registration);
               

@@ -5,11 +5,11 @@
     <title>Paperless+ - Document Tracker</title>
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
-      // MIT License
-      var pathSegmentsToKeep = 1;
+      // Handle subdirectory routing for /paperlessplus/
+      var pathSegmentsToKeep = 2; // Keep '/paperlessplus' segment
       var l = window.location;
       
-      // Just redirect to the home page for any 404s
+      // Redirect to the paperlessplus subdirectory for any 404s
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
         l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/'
