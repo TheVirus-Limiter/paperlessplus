@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { Switch, Route, useLocation, Redirect } from "wouter";
+import { useState, useEffect, createContext, useContext } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -14,6 +13,20 @@ import { documentDB } from "@/lib/db";
 import { initializeNotificationChecks } from "@/lib/notifications";
 import BottomNavigation from "@/components/bottom-navigation";
 // Logo will be loaded from public folder
+
+// Router context for shared navigation state
+const RouterContext = createContext<{
+  currentPath: string;
+  navigate: (path: string) => void;
+} | null>(null);
+
+export const useRouter = () => {
+  const context = useContext(RouterContext);
+  if (!context) {
+    throw new Error('useRouter must be used within RouterProvider');
+  }
+  return context;
+};
 
 function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -112,8 +125,8 @@ function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
   );
 }
 
-// Custom routing for GitHub Pages subdirectory
-function Router() {
+// Custom routing provider for GitHub Pages subdirectory
+function RouterProvider({ children }: { children: React.ReactNode }) {
   const basePath = "/paperlessplus";
   const [currentPath, setCurrentPath] = useState(() => {
     const fullPath = window.location.pathname;
@@ -156,6 +169,26 @@ function Router() {
       setCurrentPath("/");
     }
   }, [basePath]);
+
+  const navigate = (path: string) => {
+    const fullPath = basePath + (path === "/" ? "" : path);
+    window.history.pushState({}, '', fullPath);
+    setCurrentPath(path);
+    
+    // Trigger a custom event to notify other components
+    window.dispatchEvent(new CustomEvent('routeChange', { detail: { path } }));
+  };
+
+  return (
+    <RouterContext.Provider value={{ currentPath, navigate }}>
+      {children}
+    </RouterContext.Provider>
+  );
+}
+
+// Router component that renders the current page
+function Router() {
+  const { currentPath } = useRouter();
 
   const renderPage = () => {
     switch (currentPath) {
@@ -215,7 +248,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Router />
+        <RouterProvider>
+          <Router />
+        </RouterProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

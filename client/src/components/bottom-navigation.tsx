@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Home, Search, Clock, Bell, Settings } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useRouter } from "@/App";
 
 const navItems = [
   { id: "home", label: "Home", icon: Home, path: "/" },
@@ -11,34 +11,7 @@ const navItems = [
 ];
 
 export default function BottomNavigation() {
-  const basePath = "/paperlessplus";
-  const [currentPath, setCurrentPath] = useState(() => {
-    const fullPath = window.location.pathname;
-    if (fullPath.startsWith(basePath)) {
-      const relativePath = fullPath.substring(basePath.length);
-      return relativePath || "/";
-    }
-    return "/";
-  });
-
-  useEffect(() => {
-    const handlePopState = () => {
-      const fullPath = window.location.pathname;
-      if (fullPath.startsWith(basePath)) {
-        const relativePath = fullPath.substring(basePath.length);
-        setCurrentPath(relativePath || "/");
-      }
-    };
-    
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, [basePath]);
-
-  const navigate = (path: string) => {
-    const fullPath = basePath + (path === "/" ? "" : path);
-    window.history.pushState({}, '', fullPath);
-    setCurrentPath(path);
-  };
+  const { currentPath, navigate } = useRouter();
 
   return (
     <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-slate-900 border-t border-slate-700 px-4 py-2 z-50">
