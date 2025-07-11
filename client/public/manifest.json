@@ -30,34 +30,57 @@
   ],
   "icons": [
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMiIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0xMiAxNGgxOHY3SDEyVjE0Wm0wIDEwaDE4djdIMTJWMjRabTAgMTBoMTJ2N0gxMlYzNFoiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iMzIiIHk9IjE2IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMiIgZmlsbD0iIzA5RkE2MSIvPjxyZWN0IHg9IjMyIiB5PSIyNiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjIiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSIzMiIgeT0iMzYiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIyIiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+",
+      "src": "./favicon.png",
       "sizes": "48x48",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHJ4PSIxOCIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0xOCAyMWgyN3YxMEgxOFYyMVptMCAxNWgyN3YxMEgxOFYzNlptMCAxNWgxOHYxMEgxOFY1MVoiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iNDgiIHk9IjI0IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiByeD0iMyIgZmlsbD0iIzA5RkE2MSIvPjxyZWN0IHg9IjQ4IiB5PSIzOSIgd2lkdGg9IjYiIGhlaWdodD0iNiIgcng9IjMiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSI0OCIgeT0iNTQiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIHJ4PSIzIiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+",
+      "src": "./favicon.png",
       "sizes": "72x72",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHJ4PSIyNCIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0yNCAyOGgzNnYxM0gyNFYyOFptMCAyMGgzNnYxM0gyNFY0OFptMCAyMGgyNHYxM0gyNFY2OFoiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iNjQiIHk9IjMyIiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiByeD0iNCIgZmlsbD0iIzA5RkE2MSIvPjxyZWN0IHg9IjY0IiB5PSI1MiIgd2lkdGg9IjgiIGhlaWdodD0iOCIgcng9IjQiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSI2NCIgeT0iNzIiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHJ4PSI0IiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+",
+      "src": "./favicon.png",
       "sizes": "96x96",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE0NCIgaGVpZ2h0PSIxNDQiIHJ4PSIzNiIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik0zNiA0Mmg1NFYySDM2VjQyWm0wIDMwaDE0VjYySDM2VjcyWm0wIDMwaDM2djIwSDM2VjEwMloiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iOTYiIHk9IjQ4IiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHJ4PSI2IiBmaWxsPSIjMDlGQTYxIi8+PHJlY3QgeD0iOTYiIHk9Ijc4IiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHJ4PSI2IiBmaWxsPSIjRkY5RDAwIi8+PHJlY3QgeD0iOTYiIHk9IjEwOCIgd2lkdGg9IjEyIiBoZWlnaHQ9IjEyIiByeD0iNiIgZmlsbD0iI0ZGNTcyMiIvPjwvc3ZnPg==",
+      "src": "./favicon.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./favicon.png",
       "sizes": "144x144",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSI0OCIgZmlsbD0iI0E4NTVGNyIvPjxwYXRoIGQ9Ik00OCA1Nmg3MnYyNkg0OFY1NlptMCA0MGg3MnYyNkg0OFY5NlptMCA0MGg0OHYyNkg0OFYxMzZaIiBmaWxsPSJ3aGl0ZSIvPjxyZWN0IHg9IjEyOCIgeT0iNjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjgiIGZpbGw9IiMwOUZBNjEiLz48cmVjdCB4PSIxMjgiIHk9IjEwNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iOCIgZmlsbD0iI0ZGOUQwMCIvPjxyZWN0IHg9IjEyOCIgeT0iMTQ0IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHJ4PSI4IiBmaWxsPSIjRkY1NzIyIi8+PC9zdmc+",
+      "src": "./favicon.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./favicon.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMjgiIGZpbGw9IiNBODU1RjciLz48cGF0aCBkPSJNMTI4IDE0OGgxOTJ2NjhIMTI4VjE0OFptMCAxMDBoMTkydjY4SDEyOFYyNDhabTAgMTAwaDE0NHY2OEgxMjhWMzQ4WiIgZmlsbD0id2hpdGUiLz48cmVjdCB4PSIzNDQiIHk9IjE3MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiMwOUZBNjEiLz48cmVjdCB4PSIzNDQiIHk9IjI3MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiNGRjlEMDAiLz48cmVjdCB4PSIzNDQiIHk9IjM3MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiNGRjU3MjIiLz48L3N2Zz4=",
+      "src": "./favicon.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./favicon.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
