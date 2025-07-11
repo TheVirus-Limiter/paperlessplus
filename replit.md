@@ -185,3 +185,17 @@ Preferred communication style: Simple, everyday language.
 - **Impact**: App now properly deploys to GitHub Pages with correct SPA routing and professional branding
 - **Features**: Custom logo in onboarding and header, GitHub Pages SPA routing fix, 404 redirect handling
 - **Technical Details**: Updated 404.html and spa-github-pages.js for proper path handling, logo asset integration
+
+### ✓ Complete Logo Integration & Favicon Setup
+- **Date**: July 11, 2025
+- **Changes**: Resolved logo loading issues and implemented comprehensive favicon/PWA icon system
+- **Impact**: Custom branding now appears consistently across all platforms and installation methods
+- **Features**: Logo in onboarding slideshow, header, browser favicon, Android PWA icons, iOS home screen
+- **Technical Details**: Consolidated logo references to single `logo.png` file, updated manifest.json with all icon sizes
+
+### ✓ Fixed Reset Onboarding GitHub Pages Routing
+- **Date**: July 11, 2025
+- **Changes**: Fixed 404 error when clicking "Reset Onboarding" button in settings
+- **Impact**: Users can now properly reset onboarding flow without encountering GitHub Pages routing errors
+- **Features**: Proper redirect to home page, onboarding slideshow triggers correctly
+- **Technical Details**: Changed from `window.location.reload()` to `window.location.href = '/'`, added storage event listener
