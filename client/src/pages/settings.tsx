@@ -3,50 +3,23 @@ import Header from "@/components/header";
 import BottomNavigation from "@/components/bottom-navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Bell, Download, Upload, Trash2, RefreshCw } from "lucide-react";
-import { notificationManager } from "@/lib/notifications";
+
+import { Download, Upload, Trash2, RefreshCw } from "lucide-react";
+
 import { exportDocuments, importDocuments } from "@/lib/export";
 import { documentDB } from "@/lib/db";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Settings() {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [isClearingData, setIsClearingData] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    // Check current notification permission
-    setNotificationsEnabled(notificationManager.canShowNotifications());
-  }, []);
 
-  const handleNotificationToggle = async (enabled: boolean) => {
-    if (enabled) {
-      const permission = await notificationManager.requestPermission();
-      setNotificationsEnabled(permission === "granted");
-      
-      if (permission === "granted") {
-        toast({
-          title: "Notifications Enabled",
-          description: "You'll receive reminders for expiring documents.",
-        });
-      } else {
-        toast({
-          title: "Notifications Blocked",
-          description: "Please enable notifications in your browser settings.",
-          variant: "destructive",
-        });
-      }
-    } else {
-      setNotificationsEnabled(false);
-      toast({
-        title: "Notifications Disabled",
-        description: "You won't receive reminders anymore.",
-      });
-    }
-  };
+
+
 
   const handleExport = async () => {
     setIsExporting(true);
@@ -133,27 +106,7 @@ export default function Settings() {
       <main className="pb-20 px-4 pt-4">
         <h1 className="text-xl font-semibold text-white mb-6">Settings</h1>
 
-        {/* Notifications */}
-        <Card className="material-shadow bg-slate-800 border-slate-700 mb-4">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-white">
-              <Bell className="h-5 w-5" />
-              Notifications
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-white">Expiration Reminders</p>
-                <p className="text-xs text-slate-400">Get notified when documents are expiring</p>
-              </div>
-              <Switch
-                checked={notificationsEnabled}
-                onCheckedChange={handleNotificationToggle}
-              />
-            </div>
-          </CardContent>
-        </Card>
+
 
         {/* Data Management */}
         <Card className="material-shadow bg-slate-800 border-slate-700 mb-4">
