@@ -156,6 +156,21 @@ function App() {
     setShowOnboarding(false);
   };
 
+  // Check for onboarding reset
+  useEffect(() => {
+    const checkOnboardingStatus = () => {
+      const isComplete = localStorage.getItem('paperless-onboarding-complete');
+      setShowOnboarding(!isComplete);
+    };
+    
+    // Listen for storage changes (useful for reset onboarding)
+    window.addEventListener('storage', checkOnboardingStatus);
+    
+    return () => {
+      window.removeEventListener('storage', checkOnboardingStatus);
+    };
+  }, []);
+
   if (showOnboarding) {
     return <OnboardingSlideshow onComplete={handleOnboardingComplete} />;
   }

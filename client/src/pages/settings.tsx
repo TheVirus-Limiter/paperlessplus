@@ -126,7 +126,8 @@ export default function Settings() {
 
   const resetOnboarding = () => {
     localStorage.removeItem('paperless-onboarding-complete');
-    window.location.reload();
+    // Redirect to home page which will trigger onboarding
+    window.location.href = '/';
   };
 
   return (
