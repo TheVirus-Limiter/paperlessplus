@@ -31,7 +31,7 @@ export default function Header({ searchQuery = "", onSearchChange, hideSearch = 
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg overflow-hidden">
             <img 
-              src="./header-logo.png" 
+              src="https://media.discordapp.net/attachments/1212245437080408124/1393327604949319850/image_1.png?ex=6872c4f3&is=68717373&hm=82e855c8741d793065852f85091e68730b388b9d0e878bf634b52f3f80e49bda&=&format=webp&quality=lossless&width=630&height=615" 
               alt="Paperless+ Logo" 
               className="w-full h-full object-contain"
             />

@@ -124,11 +124,7 @@ export default function Settings() {
     }
   };
 
-  const resetOnboarding = () => {
-    localStorage.removeItem('paperless-onboarding-complete');
-    // Redirect to home page which will trigger onboarding
-    window.location.href = '/';
-  };
+
 
   return (
     <div className="max-w-md mx-auto bg-slate-900 min-h-screen relative text-white">
@@ -207,21 +203,7 @@ export default function Settings() {
           </CardContent>
         </Card>
 
-        {/* App Settings */}
-        <Card className="material-shadow bg-slate-800 border-slate-700 mb-4">
-          <CardHeader>
-            <CardTitle className="text-white">App Settings</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Button
-              onClick={resetOnboarding}
-              className="w-full justify-start bg-slate-700 hover:bg-slate-600 text-white"
-            >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Reset Onboarding
-            </Button>
-          </CardContent>
-        </Card>
+
 
         {/* About */}
         <Card className="material-shadow bg-slate-800 border-slate-700">
