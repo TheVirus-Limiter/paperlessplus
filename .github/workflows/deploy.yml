@@ -23,8 +23,25 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Build app
-      run: npm run build
+    - name: Build app with correct base
+      run: |
+        export NODE_ENV=production
+        npm run build
+
+    - name: Fix paths for GitHub Pages
+      run: |
+        # Update index.html to use relative paths
+        sed -i 's|="/assets/|="./assets/|g' dist/public/index.html
+        sed -i 's|="/manifest.json|="./manifest.json|g' dist/public/index.html
+        
+        # Update service worker path in built files
+        find dist/public -name "*.js" -exec sed -i 's|"/sw.js"|"./sw.js"|g' {} \;
+        
+        # List final structure
+        echo "Final build structure:"
+        ls -la dist/public/
+        echo "Index.html content:"
+        head -20 dist/public/index.html
 
     - name: Setup Pages
       uses: actions/configure-pages@v4

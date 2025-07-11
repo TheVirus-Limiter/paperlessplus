@@ -25,8 +25,10 @@ Your Paperless+ app is now ready for GitHub Pages! This guide will walk you thro
 1. Download all your project files from Replit
 2. Go to your new GitHub repository
 3. Click "uploading an existing file"
-4. Drag and drop all your project files
+4. Drag and drop all your project files (including the `.github` folder)
 5. Commit with message: "Initial commit - Paperless+ PWA"
+
+**Important**: Make sure to include the `.github/workflows/deploy.yml` file!
 
 **Option B: Using Git Commands**
 ```bash
