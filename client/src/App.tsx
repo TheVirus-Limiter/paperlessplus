@@ -76,7 +76,7 @@ function OnboardingSlideshow({ onComplete }: { onComplete: () => void }) {
         <div className="mb-8">
           <div className="mb-6">
             <img 
-              src="./logo.png" 
+              src="https://thevirus-limiter.github.io/paperlessplus/logo.png" 
               alt="Paperless+ Logo" 
               className="w-24 h-24 mx-auto rounded-2xl shadow-lg"
             />
