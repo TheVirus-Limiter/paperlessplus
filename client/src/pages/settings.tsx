@@ -168,7 +168,7 @@ export default function Settings() {
               Privacy-focused document tracking for a paperless lifestyle.
             </p>
             <p className="text-xs text-slate-400">
-              Version 1.0 • Your documents stay on your device
+              Your documents stay on your device • Made by Rehan Raj
             </p>
           </CardContent>
         </Card>
